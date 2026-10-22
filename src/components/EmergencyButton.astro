@@ -1,0 +1,129 @@
+---
+/**
+ * Botón de emergencias (tel:061).
+ * - variant="dock": el botón fijo de todas las páginas. Abajo a lo ancho en móvil,
+ *   arriba a la derecha (dentro de la cabecera fija) en escritorio.
+ * - variant="inline": versión grande dentro del contenido (portada, «Qué hacer»).
+ * En escritorio, al pulsar, se abre un diálogo con el número en grande (ver EmergencyDialog).
+ */
+import site from '../content/site.json';
+import Icon from './Icon.astro';
+
+interface Props {
+  variant?: 'dock' | 'inline';
+  /** Muestra debajo la nota del 112. */
+  showAlt?: boolean;
+  class?: string;
+}
+
+const { variant = 'inline', showAlt = false, class: className } = Astro.props;
+const e = site.emergency;
+---
+
+<div class:list={['emergency', `emergency--${variant}`, className]}>
+  <a class="emergency-btn" href={`tel:${e.number}`} data-emergency-call>
+    <Icon name="phone" />
+    <span>{e.label}</span>
+  </a>
+  {
+    showAlt && (
+      <p class="emergency-alt">
+        <a href={`tel:${e.altNumber}`}>{e.altText}</a>
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .emergency-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    min-height: var(--emergency-h);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-pill);
+    background: var(--color-emergency);
+    color: var(--color-on-emergency);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 0 var(--color-emergency-strong);
+  }
+
+  .emergency-btn:hover {
+    background: var(--color-emergency-strong);
+    color: var(--color-on-emergency);
+  }
+
+  .emergency-btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
+
+  .emergency-btn:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  .emergency-btn :global(.icon) {
+    width: 1.4em;
+    height: 1.4em;
+  }
+
+  /* Fijo abajo, a lo ancho, en móvil */
+  .emergency--dock {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 50;
+    padding: var(--space-1) var(--gutter) calc(var(--space-1) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-surface);
+    box-shadow: var(--shadow-dock);
+  }
+
+  .emergency--dock .emergency-btn {
+    width: 100%;
+  }
+
+  /* En escritorio pasa a la cabecera fija, arriba a la derecha */
+  @media (min-width: 960px) {
+    .emergency--dock {
+      position: static;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+    }
+
+    .emergency--dock .emergency-btn {
+      width: auto;
+      padding-inline: var(--space-3);
+      font-size: var(--fs-body);
+    }
+  }
+
+  .emergency--inline .emergency-btn {
+    width: 100%;
+    min-height: 64px;
+    font-size: 1.375rem;
+  }
+
+  @media (min-width: 640px) {
+    .emergency--inline .emergency-btn {
+      width: auto;
+      padding-inline: var(--space-5);
+    }
+  }
+
+  .emergency-alt {
+    margin-top: var(--space-2);
+    font-size: var(--fs-small);
+    max-width: 30rem;
+  }
+
+  .emergency-alt a {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import site from '../content/site.json';
+import Icon from './Icon.astro';
+
+interface Props {
+  tone?: 'default' | 'onDark';
+}
+const { tone = 'default' } = Astro.props;
+---
+
+<p class:list={['disclaimer', tone === 'onDark' && 'disclaimer--on-dark']}>
+  <Icon name="info" />
+  <span>{site.disclaimer}</span>
+</p>
+
+<style>
+  .disclaimer {
+    display: flex;
+    gap: var(--space-1);
+    align-items: flex-start;
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+    max-width: var(--measure);
+  }
+
+  .disclaimer :global(.icon) {
+    margin-top: 0.15em;
+    color: var(--color-primary);
+  }
+
+  .disclaimer--on-dark,
+  .disclaimer--on-dark :global(.icon) {
+    color: inherit;
+  }
+</style>

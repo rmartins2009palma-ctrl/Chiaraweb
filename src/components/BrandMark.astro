@@ -1,0 +1,24 @@
+---
+/**
+ * Marca: un círculo (el cuerpo) con una zona de dolor en su borde que se irradia hacia fuera.
+ * Resume la idea de la web: el dolor no siempre está donde lo esperas.
+ */
+interface Props {
+  size?: number;
+}
+const { size = 36 } = Astro.props;
+---
+
+<svg
+  class="brand-mark"
+  width={size}
+  height={size}
+  viewBox="0 0 40 40"
+  aria-hidden="true"
+  focusable="false"
+>
+  <circle cx="18" cy="22" r="15" fill="none" stroke="currentColor" stroke-width="2.5"></circle>
+  <circle cx="29" cy="11" r="10" fill="currentColor" opacity="0.16"></circle>
+  <circle cx="29" cy="11" r="6" fill="currentColor" opacity="0.32"></circle>
+  <circle cx="29" cy="11" r="3" fill="currentColor"></circle>
+</svg>

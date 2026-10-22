@@ -1,0 +1,53 @@
+---
+import '@fontsource/atkinson-hyperlegible/latin-400.css';
+import '@fontsource/atkinson-hyperlegible/latin-700.css';
+import '../styles/global.css';
+import site from '../content/site.json';
+import EmergencyDialog from '../components/EmergencyDialog.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const fullTitle = title ? `${title} | ${site.siteName}` : `${site.siteName}: ${site.tagline}`;
+---
+
+<!doctype html>
+<html lang="es" data-theme="a">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{fullTitle}</title>
+    <script is:inline>
+      // Tema antes del primer pintado: ?tema= en la URL o, si no, el elegido en esta sesión.
+      (function () {
+        var param = new URLSearchParams(location.search).get('tema');
+        var valid = param === 'a' || param === 'b';
+        var saved = null;
+        try {
+          saved = sessionStorage.getItem('tema');
+          if (valid) sessionStorage.setItem('tema', param);
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', valid ? param : saved === 'b' ? 'b' : 'a');
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{site.ui.skipLink}</a>
+    <Header />
+    <main id="contenido" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <EmergencyDialog />
+    <ThemeSwitcher />
+  </body>
+</html>

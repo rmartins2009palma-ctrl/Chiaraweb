@@ -1,0 +1,50 @@
+---
+/**
+ * Icono Lucide en línea. Solo se incluyen los iconos que se usan, para no inflar el HTML.
+ */
+import {
+  ArrowRight,
+  ChevronDown,
+  ExternalLink,
+  HeartPulse,
+  Info,
+  Menu,
+  Palette,
+  Phone,
+  X,
+} from 'lucide-static';
+
+const icons = {
+  'arrow-right': ArrowRight,
+  'chevron-down': ChevronDown,
+  'external-link': ExternalLink,
+  'heart-pulse': HeartPulse,
+  info: Info,
+  menu: Menu,
+  palette: Palette,
+  phone: Phone,
+  x: X,
+} as const;
+
+export type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  class?: string;
+  /** Si se pasa, el icono deja de ser decorativo y se anuncia con este texto. */
+  label?: string;
+}
+
+const { name, class: className = 'icon', label } = Astro.props;
+
+const svg = icons[name]
+  .replace(/<!--.*?-->/s, '')
+  .replace(/\s(width|height)="24"/g, '')
+  .replace(/class="[^"]*"/, `class="${className}"`)
+  .replace(
+    '<svg',
+    label ? `<svg role="img" aria-label="${label}" focusable="false"` : '<svg aria-hidden="true" focusable="false"',
+  );
+---
+
+<Fragment set:html={svg} />

@@ -1,0 +1,144 @@
+---
+/**
+ * Diálogo de escritorio: en un ordenador no se puede llamar, así que al pulsar
+ * «Llamar al 061» mostramos el número en grande. En móvil el enlace tel: llama directamente.
+ */
+import site from '../content/site.json';
+import Icon from './Icon.astro';
+
+const e = site.emergency;
+---
+
+<dialog class="em-dialog" id="emergency-dialog" aria-labelledby="em-dialog-title">
+  <div class="em-dialog__inner">
+    <button type="button" class="em-dialog__close" data-dialog-close>
+      <Icon name="x" />
+      <span class="visually-hidden">{e.dialogClose}</span>
+    </button>
+    <h2 id="em-dialog-title" class="em-dialog__title">
+      {e.dialogTitle}
+      <span class="em-dialog__number">{e.number}</span>
+    </h2>
+    <p class="em-dialog__body">{e.dialogBody}</p>
+    <a class="em-dialog__call" href={`tel:${e.number}`} autofocus>
+      <Icon name="phone" />
+      <span>{e.dialogCall}</span>
+    </a>
+    <p class="em-dialog__alt">
+      {e.dialogAltQuestion} <a href={`tel:${e.altNumber}`}><strong>{e.dialogAltCall}</strong></a>
+    </p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('emergency-dialog') as HTMLDialogElement | null;
+  const desktop = window.matchMedia('(min-width: 960px) and (hover: hover) and (pointer: fine)');
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    const trigger = target?.closest('[data-emergency-call]');
+    if (trigger && dialog && desktop.matches && typeof dialog.showModal === 'function') {
+      event.preventDefault();
+      dialog.showModal();
+    }
+    if (target?.closest('[data-dialog-close]')) dialog?.close();
+  });
+
+  // Cerrar al pulsar fuera del contenido
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+</script>
+
+<style>
+  .em-dialog {
+    width: min(32rem, calc(100vw - 2 * var(--gutter)));
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: 0 24px 64px rgb(0 0 0 / 0.25);
+  }
+
+  .em-dialog::backdrop {
+    background: rgb(20 16 18 / 0.6);
+  }
+
+  .em-dialog__inner {
+    position: relative;
+    padding: var(--space-5) var(--space-4) var(--space-4);
+    text-align: center;
+  }
+
+  .em-dialog__close {
+    position: absolute;
+    top: var(--space-1);
+    right: var(--space-1);
+    width: var(--tap);
+    height: var(--tap);
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .em-dialog__close:hover {
+    background: var(--color-primary-soft);
+  }
+
+  .em-dialog__title {
+    font-size: var(--fs-h3);
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .em-dialog__number {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: 7rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .em-dialog__body {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  .em-dialog__call {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--emergency-h);
+    margin-top: var(--space-3);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-pill);
+    background: var(--color-emergency);
+    color: var(--color-on-emergency);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .em-dialog__call:hover {
+    background: var(--color-emergency-strong);
+    color: var(--color-on-emergency);
+  }
+
+  .em-dialog__alt {
+    margin-top: var(--space-3);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--fs-small);
+  }
+
+  .em-dialog__alt a {
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+</style>

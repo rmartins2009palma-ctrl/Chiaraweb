@@ -1,0 +1,73 @@
+---
+/**
+ * Marca un contenido como PROVISIONAL.
+ * - Sin contenido dentro: etiqueta en línea.
+ * - Con contenido dentro: bloque con borde discontinuo y la etiqueta arriba.
+ */
+import site from '../content/site.json';
+
+interface Props {
+  /** Fuerza la etiqueta en línea aunque haya contenido. */
+  inline?: boolean;
+  note?: string;
+}
+
+const { inline = false, note } = Astro.props;
+const hasContent = Astro.slots.has('default');
+const label = site.ui.draftLabel;
+---
+
+{
+  hasContent && !inline ? (
+    <div class="draft-block">
+      <span class="draft-tag">
+        {label}
+        {note && <span class="draft-note">{note}</span>}
+      </span>
+      <slot />
+    </div>
+  ) : (
+    <span class="draft-tag">
+      {label}
+      {note && <span class="draft-note">{note}</span>}
+      <slot />
+    </span>
+  )
+}
+
+<style>
+  .draft-tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--color-draft-border);
+    border-radius: 6px;
+    background: var(--color-draft-bg);
+    color: var(--color-draft-text);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+  }
+
+  .draft-note {
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .draft-block {
+    position: relative;
+    padding: var(--space-3) var(--space-2) var(--space-2);
+    border: 2px dashed var(--color-draft-border);
+    border-radius: var(--radius-card);
+  }
+
+  .draft-block > .draft-tag {
+    position: absolute;
+    top: 0;
+    left: var(--space-2);
+    transform: translateY(-50%);
+  }
+</style>

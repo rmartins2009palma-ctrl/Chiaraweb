@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import pages from '../content/pages.json';
+
+const page = pages.notFound;
+---
+
+<Base title={page.metaTitle}>
+  <PageHead title={page.title} lede={page.lede}>
+    <p><a class="btn" href="/">{page.cta}</a></p>
+  </PageHead>
+</Base>

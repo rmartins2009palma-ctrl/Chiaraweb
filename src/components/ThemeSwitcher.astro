@@ -1,0 +1,187 @@
+---
+/**
+ * Selector de tema, solo para el prototipo: permite a la clienta comparar las dos paletas.
+ * También se puede forzar con ?tema=a o ?tema=b en la URL.
+ * El tema elegido se recuerda durante la sesión de la pestaña (sessionStorage), nunca en cookies.
+ */
+import site from '../content/site.json';
+import Icon from './Icon.astro';
+
+const t = site.themes;
+---
+
+<div class="theme-switcher" data-theme-switcher>
+  <button
+    type="button"
+    class="theme-switcher__toggle"
+    aria-expanded="false"
+    aria-controls="theme-panel"
+  >
+    <Icon name="palette" />
+    <span>{t.button}</span>
+  </button>
+  <div id="theme-panel" class="theme-switcher__panel" hidden>
+    <p class="theme-switcher__title" id="theme-title">{t.title}</p>
+    <div class="theme-switcher__options" role="group" aria-labelledby="theme-title">
+      {
+        t.options.map((option) => (
+          <button type="button" class="theme-option" data-theme-option={option.id} aria-pressed="false">
+            <span class="theme-option__swatch" style={`background:${option.swatch}`} />
+            <span>
+              Tema {option.id.toUpperCase()}: {option.label}
+            </span>
+            <span class="theme-option__check" aria-hidden="true">✓</span>
+          </button>
+        ))
+      }
+    </div>
+    <p class="theme-switcher__help">{t.help}</p>
+  </div>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const wrapper = document.querySelector<HTMLElement>('[data-theme-switcher]');
+  const toggle = wrapper?.querySelector<HTMLButtonElement>('.theme-switcher__toggle');
+  const panel = document.getElementById('theme-panel');
+  const options = wrapper?.querySelectorAll<HTMLButtonElement>('[data-theme-option]') ?? [];
+
+  function sync() {
+    const active = root.dataset.theme ?? 'a';
+    options.forEach((btn) => btn.setAttribute('aria-pressed', String(btn.dataset.themeOption === active)));
+  }
+
+  function setPanel(open: boolean) {
+    if (!toggle || !panel) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+  }
+
+  toggle?.addEventListener('click', () => setPanel(toggle.getAttribute('aria-expanded') !== 'true'));
+
+  options.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.themeOption!;
+      root.dataset.theme = id;
+      try {
+        sessionStorage.setItem('tema', id);
+      } catch {
+        // Sin almacenamiento disponible: el tema se mantiene solo en esta página.
+      }
+      const url = new URL(window.location.href);
+      url.searchParams.set('tema', id);
+      history.replaceState(null, '', url);
+      sync();
+    }),
+  );
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setPanel(false);
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (wrapper && !wrapper.contains(event.target as Node)) setPanel(false);
+  });
+
+  sync();
+</script>
+
+<style>
+  .theme-switcher {
+    position: fixed;
+    right: var(--gutter);
+    bottom: calc(var(--dock-h) + var(--space-2));
+    z-index: 45;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: var(--space-1);
+  }
+
+  @media (min-width: 960px) {
+    .theme-switcher {
+      left: var(--space-3);
+      right: auto;
+      bottom: var(--space-3);
+      align-items: flex-start;
+    }
+  }
+
+  .theme-switcher__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap);
+    padding: 0 var(--space-2);
+    border: 2px dashed var(--color-draft-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-draft-bg);
+    color: var(--color-draft-text);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  }
+
+  .theme-switcher__panel {
+    width: min(18rem, calc(100vw - 2 * var(--gutter)));
+    padding: var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: 0 16px 40px rgb(0 0 0 / 0.16);
+    font-size: var(--fs-small);
+  }
+
+  .theme-switcher__title {
+    font-weight: 700;
+  }
+
+  .theme-switcher__options {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--tap);
+    padding: 0 var(--space-2) 0 var(--space-1);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme-option[aria-pressed='true'] {
+    border-color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .theme-option__check {
+    margin-left: auto;
+    visibility: hidden;
+  }
+
+  .theme-option[aria-pressed='true'] .theme-option__check {
+    visibility: visible;
+  }
+
+  .theme-option__swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex: none;
+  }
+
+  .theme-switcher__help {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+  }
+</style>

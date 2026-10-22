@@ -1,0 +1,103 @@
+---
+import site from '../content/site.json';
+import BrandMark from './BrandMark.astro';
+import Disclaimer from './Disclaimer.astro';
+import Draft from './Draft.astro';
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__about">
+      <p class="site-footer__brand">
+        <BrandMark size={32} />
+        <span>{site.siteName}</span>
+      </p>
+      <p>{site.footer.about}</p>
+      <Disclaimer tone="onDark" />
+    </div>
+
+    <nav aria-labelledby="footer-sections">
+      <h2 id="footer-sections" class="site-footer__title">{site.footer.sectionsTitle}</h2>
+      <ul>
+        {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="footer-legal">
+      <h2 id="footer-legal" class="site-footer__title">{site.footer.legalTitle}</h2>
+      <ul>
+        {site.legal.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <Draft />
+    <p>{site.footer.prototypeNote}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-12);
+    padding-block: var(--space-6) var(--space-4);
+    background: var(--color-primary-strong);
+    color: var(--color-on-primary);
+    font-size: var(--fs-small);
+  }
+
+  .site-footer a {
+    color: var(--color-on-primary);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .site-footer__about > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .site-footer__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .site-footer__title {
+    font-size: var(--fs-small);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+
+  .site-footer ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .site-footer li a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+    border-top: 1px solid rgb(255 255 255 / 0.25);
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__grid {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>

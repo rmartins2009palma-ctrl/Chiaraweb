@@ -1,0 +1,91 @@
+{
+  "_nota": "Textos generales del sitio. Provisionales hasta recibir el contenido definitivo de la clienta.",
+  "siteName": "Late distinto",
+  "siteNameDraft": true,
+  "tagline": "Infarto en la mujer: reconocerlo y actuar",
+  "description": "Web informativa sobre los síntomas del infarto en la mujer y qué hacer ante ellos. Prototipo provisional.",
+  "nav": [
+    {
+      "href": "/sintomas",
+      "label": "Síntomas"
+    },
+    {
+      "href": "/diferencias",
+      "label": "Mujer y hombre"
+    },
+    {
+      "href": "/test",
+      "label": "Test de riesgo"
+    },
+    {
+      "href": "/testimonios",
+      "label": "Testimonios"
+    },
+    {
+      "href": "/que-hacer",
+      "label": "Qué hacer"
+    },
+    {
+      "href": "/bibliografia",
+      "label": "Bibliografía"
+    }
+  ],
+  "legal": [
+    {
+      "href": "/quienes-somos",
+      "label": "Quiénes somos"
+    },
+    {
+      "href": "/aviso-legal",
+      "label": "Aviso legal"
+    },
+    {
+      "href": "/privacidad",
+      "label": "Privacidad"
+    }
+  ],
+  "emergency": {
+    "number": "061",
+    "label": "Llamar al 061",
+    "altNumber": "112",
+    "altText": "Si estás fuera de tu comunidad o no puedes hablar, llama al 112",
+    "dialogTitle": "Llama ahora al",
+    "dialogBody": "Emergencias sanitarias. Atienden las 24 horas, todos los días.",
+    "dialogCall": "Llamar desde este dispositivo",
+    "dialogClose": "Cerrar",
+    "dialogAltQuestion": "¿Estás fuera de tu comunidad o no puedes hablar?",
+    "dialogAltCall": "Llama al 112"
+  },
+  "disclaimer": "Esta web es informativa y no sustituye la valoración de un profesional. Ante la duda, llama al 061.",
+  "footer": {
+    "about": "Proyecto divulgativo de un Trabajo de Fin de Grado de Enfermería.",
+    "prototypeNote": "Prototipo. Los textos marcados como provisionales están pendientes de validación.",
+    "sectionsTitle": "Secciones",
+    "legalTitle": "Información"
+  },
+  "ui": {
+    "skipLink": "Saltar al contenido",
+    "menuOpen": "Menú",
+    "menuClose": "Cerrar",
+    "navLabel": "Principal",
+    "homeLabel": "Ir a la portada",
+    "draftLabel": "PROVISIONAL"
+  },
+  "themes": {
+    "title": "Tema del prototipo",
+    "button": "Tema",
+    "help": "Solo visible en el prototipo, para elegir la paleta.",
+    "options": [
+      {
+        "id": "a",
+        "label": "Ciruela",
+        "swatch": "#6B2D5C"
+      },
+      {
+        "id": "b",
+        "label": "Petróleo",
+        "swatch": "#1F5F6B"
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "_nota": "Cabeceras de cada página. Las secciones aún sin desarrollar muestran un aviso de «en preparación».",
+  "pending": "Esta sección se está preparando. Aquí irá su contenido en la siguiente fase del prototipo.",
+  "home": {
+    "title": "Un infarto en la mujer no siempre duele en el pecho",
+    "lede": "Conocer sus señales te da minutos. Y los minutos cuentan."
+  },
+  "sintomas": {
+    "title": "Síntomas del infarto en la mujer",
+    "lede": "Qué puedes notar, y por qué a menudo se confunde con otra cosa."
+  },
+  "diferencias": {
+    "title": "Mujer y hombre: no se nota igual",
+    "lede": "Dónde aparece el dolor y qué otros síntomas son más frecuentes en cada caso."
+  },
+  "test": {
+    "title": "Test de riesgo cardiovascular",
+    "lede": "Diez preguntas para orientarte. No es un diagnóstico."
+  },
+  "testimonios": {
+    "title": "Testimonios",
+    "lede": "Relatos de mujeres que reconocieron las señales."
+  },
+  "que-hacer": {
+    "title": "Qué hacer ante un infarto",
+    "lede": "Pasos sencillos mientras llega la ayuda."
+  },
+  "bibliografia": {
+    "title": "Recursos bibliográficos",
+    "lede": "Las fuentes en las que se basa esta web."
+  },
+  "quienes-somos": {
+    "title": "Quiénes somos",
+    "lede": "El equipo detrás de este proyecto."
+  },
+  "aviso-legal": {
+    "title": "Aviso legal",
+    "lede": "Condiciones de uso de esta web."
+  },
+  "privacidad": {
+    "title": "Privacidad",
+    "lede": "Esta web no recoge, guarda ni envía datos personales."
+  },
+  "notFound": {
+    "title": "No encontramos esta página",
+    "lede": "Puede que el enlace haya cambiado.",
+    "cta": "Ir a la portada",
+    "metaTitle": "Página no encontrada"
+  }
+}
