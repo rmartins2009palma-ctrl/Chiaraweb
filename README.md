@@ -1,4 +1,4 @@
-# Late distinto · Prototipo web TFG
+# TFGCambiar · Prototipo web TFG
 
 Prototipo navegable de la web divulgativa sobre el infarto en la mujer (TFG de Enfermería).
 Las especificaciones completas están en [CLAUDE.md](CLAUDE.md).
