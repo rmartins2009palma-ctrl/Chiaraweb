@@ -1,13 +1,204 @@
 ---
 import Base from '../layouts/Base.astro';
+import Accordion from '../components/Accordion.astro';
+import AccordionItem from '../components/AccordionItem.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import Draft from '../components/Draft.astro';
+import Icon from '../components/Icon.astro';
 import PageHead from '../components/PageHead.astro';
-import Pending from '../components/Pending.astro';
+import SymptomCard from '../components/SymptomCard.astro';
 import pages from '../content/pages.json';
+import data from '../content/sintomas.json';
 
-const page = pages['sintomas'];
+const page = pages.sintomas;
 ---
 
 <Base title={page.title} description={page.lede}>
-  <PageHead title={page.title} lede={page.lede} />
-  <Pending />
+  <PageHead title={page.title} lede={page.lede}>
+    <Draft />
+  </PageHead>
+
+  <section class="container" aria-labelledby="cards-title">
+    <h2 id="cards-title" class="visually-hidden">{data.cardsTitle}</h2>
+    <p class="cards-intro">{data.cardsIntro} {data.cardsHint}</p>
+    <ul class="cards" role="list">
+      {
+        data.symptoms.map((s) => (
+          <li>
+            <SymptomCard icon={s.icon} title={s.title} text={s.short} href={`#sintoma-${s.id}`} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <div class="container detail">
+    <section class="detail__main" aria-labelledby="detail-title">
+      <h2 id="detail-title">{data.detailTitle}</h2>
+      <p class="detail__intro">{data.detailIntro}</p>
+      <Accordion>
+        {
+          data.symptoms.map((s) => (
+            <AccordionItem id={`sintoma-${s.id}`} title={s.title} icon={s.icon}>
+              <div class="symptom-detail">
+                <h4>{data.labels.how}</h4>
+                <p>{s.how}</p>
+                <h4>{data.labels.anxiety}</h4>
+                <p>{s.anxiety}</p>
+                <p class="ref">{s.ref}</p>
+              </div>
+            </AccordionItem>
+          ))
+        }
+      </Accordion>
+    </section>
+
+    <aside class="unexpected" aria-labelledby="unexpected-title">
+      <div class="unexpected__panel">
+        <span class="unexpected__icon"><Icon name="lightbulb" /></span>
+        <h2 id="unexpected-title">{data.unexpected.title}</h2>
+        <p>{data.unexpected.intro}</p>
+        <ul>
+          {data.unexpected.items.map((item) => <li>{item}</li>)}
+        </ul>
+        <p>{data.unexpected.closing}</p>
+        <p class="ref">{data.unexpected.ref}</p>
+        <Draft />
+      </div>
+    </aside>
+  </div>
+
+  <section class="container closing">
+    <p class="closing__text">
+      {data.cta.text} <a href={data.cta.link.href}>{data.cta.link.label}</a>
+    </p>
+    <Disclaimer />
+  </section>
 </Base>
+
+<style>
+  .cards-intro {
+    max-width: var(--measure);
+    color: var(--color-text-muted);
+  }
+
+  .cards {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .cards {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* La primera tarjeta, el síntoma más conocido, ocupa dos columnas;
+       el resto apila el icono sobre el texto para aprovechar el ancho. */
+    .cards li:first-child {
+      grid-column: span 2;
+    }
+
+    .cards li:not(:first-child) :global(.symptom) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .detail {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-10);
+  }
+
+  .detail__intro {
+    margin: var(--space-1) 0 var(--space-3);
+    color: var(--color-text-muted);
+    max-width: var(--measure);
+  }
+
+  .symptom-detail h4 {
+    font-size: var(--fs-small);
+    margin-top: var(--space-2);
+  }
+
+  .symptom-detail h4:first-child {
+    margin-top: 0;
+  }
+
+  .symptom-detail p {
+    margin-top: var(--space-1);
+  }
+
+  .ref {
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+  }
+
+  .symptom-detail .ref {
+    margin-top: var(--space-2);
+  }
+
+  .unexpected__panel {
+    padding: var(--space-4) var(--space-3);
+    background: var(--color-primary-soft);
+    border-radius: var(--radius-card);
+    border-top: 6px solid var(--color-primary);
+  }
+
+  .unexpected__panel > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .unexpected__icon {
+    display: inline-flex;
+    color: var(--color-primary);
+  }
+
+  .unexpected__icon :global(.icon) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .unexpected ul {
+    padding-left: 1.25em;
+  }
+
+  .unexpected li + li {
+    margin-top: var(--space-1);
+  }
+
+  @media (min-width: 960px) {
+    .detail {
+      grid-template-columns: 1.7fr 1fr;
+      align-items: start;
+    }
+
+    .unexpected {
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-3));
+      margin-top: var(--space-6);
+    }
+  }
+
+  .closing {
+    margin-top: var(--space-8);
+  }
+
+  .closing > * + * {
+    margin-top: var(--space-3);
+  }
+
+  .closing__text {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    max-width: var(--measure);
+  }
+</style>

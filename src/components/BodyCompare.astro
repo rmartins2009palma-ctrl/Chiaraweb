@@ -1,0 +1,154 @@
+---
+/**
+ * Dos siluetas neutras lado a lado con las zonas de dolor numeradas,
+ * y una leyenda en texto debajo (la información nunca depende solo del dibujo).
+ */
+import BodySilhouette from './BodySilhouette.astro';
+
+interface Zone {
+  n: number;
+  x: number;
+  y: number;
+  label: string;
+  back?: boolean;
+  minor?: boolean;
+  /** Misma zona repetida (p. ej. el otro brazo): se dibuja pero no se repite en la leyenda. */
+  duplicate?: boolean;
+}
+
+interface Figure {
+  id: string;
+  label: string;
+  zones: Zone[];
+}
+
+interface Props {
+  figures: Figure[];
+  backNote: string;
+  zoneLabel: string;
+}
+
+const { figures, backNote, zoneLabel } = Astro.props;
+---
+
+<div class="compare">
+  <div class="compare__figures">
+    {
+      figures.map((f) => (
+        <figure class="compare__figure">
+          <figcaption class="compare__label">{f.label}</figcaption>
+          <BodySilhouette zones={f.zones} />
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="compare__legends">
+    {
+      figures.map((f) => (
+        <div class="compare__legend">
+          <h3>{f.label}</h3>
+          <ol role="list">
+            {f.zones
+              .filter((z) => !z.duplicate)
+              .map((z) => (
+                <li>
+                  <span class:list={['compare__num', z.back && 'compare__num--back']} aria-hidden="true">
+                    {z.n}
+                  </span>
+                  <span>
+                    <span class="visually-hidden">{zoneLabel} {z.n}: </span>
+                    {z.label}
+                    {z.back && <span class="compare__back"> ({backNote})</span>}
+                  </span>
+                </li>
+              ))}
+          </ol>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .compare__figures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .compare__figure {
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+  }
+
+  .compare__figure :global(.silhouette) {
+    max-width: 260px;
+  }
+
+  .compare__label {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
+
+  .compare__legends {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .compare__legend ol {
+    margin-top: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .compare__legend li {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+    padding-block: var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .compare__num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-top: 0.1em;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .compare__num--back {
+    outline: 2px dashed var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .compare__back {
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 640px) {
+    .compare__figures {
+      gap: var(--space-4);
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .compare__legends {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+  }
+</style>

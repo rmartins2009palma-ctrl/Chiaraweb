@@ -1,0 +1,81 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  id?: string;
+  icon?: string;
+  open?: boolean;
+  /** Nivel de encabezado que envuelve el título, para mantener la jerarquía de la página. */
+  level?: 2 | 3 | 4;
+}
+
+const { title, id, icon, open = false, level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
+---
+
+<details class="acc-item" id={id} open={open}>
+  <summary class="acc-item__summary">
+    {icon && <span class="acc-item__icon"><Icon name={icon} /></span>}
+    <Heading class="acc-item__title">{title}</Heading>
+    <span class="acc-item__chevron"><Icon name="chevron-down" /></span>
+  </summary>
+  <div class="acc-item__body">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .acc-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .acc-item__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 4rem;
+    padding: var(--space-2) var(--space-1);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .acc-item__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .acc-item__summary:hover {
+    background: var(--color-primary-soft);
+  }
+
+  .acc-item__title {
+    flex: 1;
+    font-size: var(--fs-h3);
+  }
+
+  .acc-item__icon {
+    color: var(--color-primary);
+    display: inline-flex;
+  }
+
+  .acc-item__chevron {
+    display: inline-flex;
+    color: var(--color-text-muted);
+    transition: transform 0.2s ease;
+  }
+
+  .acc-item[open] .acc-item__chevron {
+    transform: rotate(180deg);
+  }
+
+  .acc-item__body {
+    padding: 0 var(--space-1) var(--space-4);
+    max-width: var(--measure);
+  }
+
+  @media (min-width: 640px) {
+    .acc-item__body {
+      padding-left: calc(var(--space-1) + 1.25em + var(--space-2));
+    }
+  }
+</style>

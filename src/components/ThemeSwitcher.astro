@@ -18,7 +18,7 @@ const t = site.themes;
     aria-controls="theme-panel"
   >
     <Icon name="palette" />
-    <span>{t.button}</span>
+    <span class="theme-switcher__label">{t.button}</span>
   </button>
   <div id="theme-panel" class="theme-switcher__panel" hidden>
     <p class="theme-switcher__title" id="theme-title">{t.title}</p>
@@ -124,6 +124,24 @@ const t = site.themes;
     font-weight: 700;
     cursor: pointer;
     box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  }
+
+  /* En móvil solo el icono, para tapar lo mínimo posible. */
+  @media (max-width: 959px) {
+    .theme-switcher__toggle {
+      width: var(--tap);
+      padding: 0;
+      justify-content: center;
+    }
+
+    .theme-switcher__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
   }
 
   .theme-switcher__panel {

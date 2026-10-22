@@ -1,0 +1,127 @@
+---
+/**
+ * Pestañas accesibles (patrón ARIA «tabs»: flechas, Inicio y Fin para moverse).
+ * Cada panel se pasa como slot con nombre igual a su id:
+ *   <Tabs id="x" tabs={[{ id: 'a', label: 'A' }]}><div slot="a">…</div></Tabs>
+ */
+interface Tab {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  id: string;
+  tabs: Tab[];
+  label: string;
+  class?: string;
+}
+
+const { id, tabs, label, class: className } = Astro.props;
+const panels = await Promise.all(tabs.map((tab) => Astro.slots.render(tab.id)));
+---
+
+<div class:list={['tabs', className]} data-tabs>
+  <div class="tabs__list" role="tablist" aria-label={label}>
+    {
+      tabs.map((tab, i) => (
+        <button
+          type="button"
+          role="tab"
+          class="tabs__tab"
+          id={`${id}-tab-${tab.id}`}
+          aria-controls={`${id}-panel-${tab.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {tab.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    tabs.map((tab, i) => (
+      <div
+        class="tabs__panel"
+        role="tabpanel"
+        id={`${id}-panel-${tab.id}`}
+        aria-labelledby={`${id}-tab-${tab.id}`}
+        tabindex="0"
+        hidden={i !== 0}
+        set:html={panels[i]}
+      />
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+
+    function select(tab: HTMLButtonElement, focus = true) {
+      tabs.forEach((t) => {
+        const selected = t === tab;
+        t.setAttribute('aria-selected', String(selected));
+        t.tabIndex = selected ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls')!);
+        if (panel) panel.hidden = !selected;
+      });
+      if (focus) tab.focus();
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab, false));
+      tab.addEventListener('keydown', (event) => {
+        const keys: Record<string, number> = {
+          ArrowRight: (i + 1) % tabs.length,
+          ArrowLeft: (i - 1 + tabs.length) % tabs.length,
+          Home: 0,
+          End: tabs.length - 1,
+        };
+        if (event.key in keys) {
+          event.preventDefault();
+          select(tabs[keys[event.key]]);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .tabs__list {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    background: var(--color-primary-soft);
+    border-radius: var(--radius-pill);
+  }
+
+  .tabs__tab {
+    flex: 1;
+    min-height: var(--tap);
+    padding: 0 var(--space-2);
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .tabs__tab:hover {
+    border-color: var(--color-primary);
+  }
+
+  .tabs__tab[aria-selected='true'] {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .tabs__panel {
+    margin-top: var(--space-3);
+  }
+
+  .tabs__panel:focus-visible {
+    outline-offset: 6px;
+    border-radius: 4px;
+  }
+</style>

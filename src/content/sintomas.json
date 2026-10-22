@@ -99,5 +99,13 @@
     ],
     "closing": "Si te reconoces en esto, coméntalo en tu centro de salud. Si los síntomas aparecen de repente o no se van, llama al 061.",
     "ref": "[Ref. pendiente]"
+  },
+  "cardsHint": "Pulsa una tarjeta para ver su explicación.",
+  "cta": {
+    "text": "Si tienes estos síntomas ahora, no esperes.",
+    "link": {
+      "href": "/que-hacer",
+      "label": "Qué hacer mientras llega la ayuda"
+    }
   }
 }

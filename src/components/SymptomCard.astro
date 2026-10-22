@@ -9,18 +9,21 @@ interface Props {
   compact?: boolean;
   /** Elemento del título; en listas compactas no es un encabezado. */
   as?: 'h3' | 'p';
+  /** Si se pasa, toda la tarjeta es un enlace. */
+  href?: string;
 }
 
-const { icon, title, text, compact = false, as: Title = compact ? 'p' : 'h3' } = Astro.props;
+const { icon, title, text, compact = false, as: Title = compact ? 'p' : 'h3', href } = Astro.props;
+const Wrapper = href ? 'a' : 'article';
 ---
 
-<article class:list={['symptom', compact && 'symptom--compact']}>
+<Wrapper class:list={['symptom', compact && 'symptom--compact', href && 'symptom--link']} href={href}>
   <span class="symptom__icon"><Icon name={icon} /></span>
   <div>
     <Title class="symptom__title">{title}</Title>
     {text && <p class="symptom__text">{text}</p>}
   </div>
-</article>
+</Wrapper>
 
 <style>
   .symptom {
@@ -33,6 +36,19 @@ const { icon, title, text, compact = false, as: Title = compact ? 'p' : 'h3' } =
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .symptom--link:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text);
+  }
+
+  .symptom--link:hover .symptom__title {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
   }
 
   .symptom__icon {

@@ -1,0 +1,118 @@
+{
+  "_nota": "PROVISIONAL. Tendencias generales ampliamente aceptadas, sin cifras. Sustituir por el contenido validado. Coordenadas de zonas en el viewBox 240x304 de la silueta.",
+  "compare": {
+    "title": "Dónde se nota",
+    "intro": "Cada número marca una zona donde puede aparecer el dolor o la molestia. El círculo discontinuo indica que la zona está en la espalda.",
+    "backNote": "en la espalda",
+    "figures": [
+      {
+        "id": "mujer",
+        "label": "Mujer",
+        "zones": [
+          {
+            "n": 1,
+            "x": 112,
+            "y": 172,
+            "minor": true,
+            "label": "Pecho: a menudo leve, como presión o molestia"
+          },
+          {
+            "n": 2,
+            "x": 120,
+            "y": 100,
+            "label": "Mandíbula y cuello"
+          },
+          {
+            "n": 3,
+            "x": 158,
+            "y": 134,
+            "back": true,
+            "label": "Parte alta de la espalda, entre los omóplatos"
+          },
+          {
+            "n": 4,
+            "x": 44,
+            "y": 205,
+            "label": "Uno o ambos brazos"
+          },
+          {
+            "n": 4,
+            "x": 196,
+            "y": 205,
+            "label": "",
+            "duplicate": true
+          },
+          {
+            "n": 5,
+            "x": 120,
+            "y": 252,
+            "label": "Boca del estómago"
+          }
+        ]
+      },
+      {
+        "id": "hombre",
+        "label": "Hombre",
+        "zones": [
+          {
+            "n": 1,
+            "x": 120,
+            "y": 165,
+            "label": "Pecho: dolor opresivo e intenso, en el centro"
+          },
+          {
+            "n": 2,
+            "x": 196,
+            "y": 205,
+            "label": "Brazo izquierdo"
+          },
+          {
+            "n": 3,
+            "x": 120,
+            "y": 100,
+            "label": "Mandíbula y cuello"
+          }
+        ]
+      }
+    ],
+    "zoneLabel": "Zona"
+  },
+  "table": {
+    "title": "Comparativa",
+    "caption": "Diferencias más habituales entre mujer y hombre en los síntomas del infarto",
+    "aspectLabel": "Aspecto",
+    "columns": [
+      "Mujer",
+      "Hombre"
+    ],
+    "rows": [
+      {
+        "aspect": "Dolor en el pecho",
+        "mujer": "Puede ser leve, como presión o molestia. A veces no aparece.",
+        "hombre": "Suele ser el síntoma principal: opresivo e intenso."
+      },
+      {
+        "aspect": "Dónde más se nota",
+        "mujer": "Espalda, cuello, mandíbula, uno o ambos brazos, o boca del estómago.",
+        "hombre": "Centro del pecho, a menudo con extensión al brazo izquierdo."
+      },
+      {
+        "aspect": "Otros síntomas",
+        "mujer": "Falta de aire, náuseas, sudor frío, cansancio intenso y mareo, a veces sin dolor.",
+        "hombre": "Sudor frío, náuseas o falta de aire, junto al dolor."
+      },
+      {
+        "aspect": "Cómo empieza",
+        "mujer": "A veces de forma gradual, con señales en los días previos.",
+        "hombre": "Con más frecuencia, de forma brusca."
+      },
+      {
+        "aspect": "Con qué se confunde",
+        "mujer": "Ansiedad, estrés, indigestión, contracturas o síntomas de la menopausia.",
+        "hombre": "Se reconoce antes como un posible problema del corazón."
+      }
+    ],
+    "note": "Son tendencias generales. Cualquier persona puede tener cualquiera de estos síntomas.",
+    "ref": "[Ref. pendiente]"
+  }
+}
