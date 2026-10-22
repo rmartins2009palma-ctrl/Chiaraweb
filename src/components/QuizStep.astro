@@ -1,0 +1,274 @@
+---
+/**
+ * Una pregunta del test (una por pantalla).
+ * - single: botones de opción grandes (radio).
+ * - multiple: casillas; una opción «exclusive» desmarca las demás.
+ * - measures: campos numéricos opcionales (peso y altura).
+ * Los puntos (ficticios) viajan en data-points y los suma el script del test.
+ */
+interface Option {
+  label: string;
+  points: number;
+  exclusive?: boolean;
+}
+
+interface Field {
+  id: string;
+  label: string;
+  unit: string;
+  min: number;
+  max: number;
+}
+
+interface Question {
+  id: string;
+  type: string;
+  title: string;
+  help?: string;
+  optional?: boolean;
+  options?: Option[];
+  fields?: Field[];
+}
+
+interface Props {
+  question: Question;
+  index: number;
+  optionalLabel: string;
+}
+
+const { question: q, index, optionalLabel } = Astro.props;
+const name = `q-${q.id}`;
+const helpId = q.help ? `${name}-help` : undefined;
+const inputType = q.type === 'multiple' ? 'checkbox' : 'radio';
+---
+
+<fieldset
+  class="step"
+  data-step={index}
+  data-type={q.type}
+  data-optional={q.optional ? 'true' : undefined}
+  aria-describedby={helpId}
+  hidden
+>
+  <legend class="step__legend">
+    <span class="step__title" tabindex="-1" data-step-title>{q.title}</span>
+    {q.optional && <span class="step__optional">{optionalLabel}</span>}
+  </legend>
+  {q.help && <p class="step__help" id={helpId}>{q.help}</p>}
+
+  {
+    q.options && (
+      <div class="step__options">
+        {q.options.map((o, i) => (
+          <label class="option">
+            <input
+              type={inputType}
+              name={name}
+              value={String(i)}
+              data-points={o.points}
+              data-exclusive={o.exclusive ? 'true' : undefined}
+            />
+            <span class="option__mark" aria-hidden="true" />
+            <span class="option__label">{o.label}</span>
+          </label>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    q.fields && (
+      <div class="step__fields">
+        {q.fields.map((f) => (
+          <div class="field">
+            <label for={`${name}-${f.id}`}>{f.label}</label>
+            <div class="field__control">
+              <input
+                id={`${name}-${f.id}`}
+                type="number"
+                inputmode="decimal"
+                min={f.min}
+                max={f.max}
+                step="any"
+                data-field={f.id}
+                aria-describedby={`${name}-${f.id}-unit`}
+              />
+              <span class="field__unit" id={`${name}-${f.id}-unit`}>
+                {f.unit}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+</fieldset>
+
+<style>
+  .step {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .step__legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-2);
+    padding: 0;
+  }
+
+  .step__title {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    text-wrap: balance;
+  }
+
+  /* Recibe el foco al cambiar de pregunta solo para que el lector de pantalla la anuncie. */
+  .step__title:focus {
+    outline: none;
+  }
+
+  .step__optional {
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+  }
+
+  .step__help {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+  }
+
+  .step__options {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+  }
+
+  .option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 3.5rem;
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-card);
+    cursor: pointer;
+  }
+
+  .option:hover {
+    border-color: var(--color-primary);
+  }
+
+  .option input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .option__mark {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-text-muted);
+    border-radius: 50%;
+    background: var(--color-surface);
+  }
+
+  .option input[type='checkbox'] + .option__mark {
+    border-radius: 6px;
+  }
+
+  .option:has(input:checked) {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+  }
+
+  .option input:checked + .option__mark {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+  }
+
+  .option input[type='radio']:checked + .option__mark::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-on-primary);
+  }
+
+  .option input[type='checkbox']:checked + .option__mark::after {
+    content: '';
+    width: 6px;
+    height: 12px;
+    margin-top: -3px;
+    border: solid var(--color-on-primary);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+
+  .option input:checked ~ .option__label {
+    font-weight: 700;
+  }
+
+  .option:has(input:focus-visible) {
+    outline: var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  .step__fields {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    max-width: 24rem;
+  }
+
+  .field label {
+    display: block;
+    font-weight: 700;
+  }
+
+  .field__control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .field input {
+    width: 100%;
+    max-width: 10rem;
+    min-height: 3.5rem;
+    padding: 0 var(--space-2);
+    border: 2px solid var(--color-text-muted);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 1.25rem;
+  }
+
+  .field input:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+    border-color: var(--color-primary);
+  }
+
+  .field input[aria-invalid='true'] {
+    border-color: var(--color-text);
+    border-style: dashed;
+  }
+
+  .field__unit {
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+</style>

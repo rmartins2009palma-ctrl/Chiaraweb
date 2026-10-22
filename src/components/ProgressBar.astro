@@ -1,0 +1,42 @@
+---
+/**
+ * Barra de progreso del test. El texto («Pregunta 3 de 10») lo actualiza el script del test;
+ * la barra es decorativa porque el texto ya da la información.
+ */
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<div class="progress">
+  <p class="progress__text" data-progress-text>{label}</p>
+  <div class="progress__track" aria-hidden="true">
+    <span class="progress__fill" data-progress-fill></span>
+  </div>
+</div>
+
+<style>
+  .progress__text {
+    font-size: var(--fs-small);
+    font-weight: 700;
+    color: var(--color-text-muted);
+  }
+
+  .progress__track {
+    height: 8px;
+    margin-top: var(--space-1);
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-soft);
+    overflow: hidden;
+  }
+
+  .progress__fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+/**
+ * Resultado del test para un nivel (bajo, moderado o alto). Se renderizan los tres
+ * ocultos y el script muestra el que corresponde. El nivel se indica con texto y con
+ * un medidor de tres segmentos, nunca solo con color.
+ */
+interface Level {
+  id: string;
+  title: string;
+  meaning: string;
+  todo: string[];
+}
+
+interface Props {
+  level: Level;
+  position: number;
+  total: number;
+  labels: { whatMeans: string; whatToDo: string };
+}
+
+const { level, position, total, labels } = Astro.props;
+---
+
+<article class="result" data-level={level.id} hidden>
+  <div class="result__meter" aria-hidden="true">
+    {Array.from({ length: total }, (_, i) => <span class:list={[i <= position && 'is-on']} />)}
+  </div>
+  <h2 class="result__title" tabindex="-1" data-result-title>{level.title}</h2>
+  <p class="result__score" data-result-score></p>
+
+  <h3>{labels.whatMeans}</h3>
+  <p>{level.meaning}</p>
+
+  <h3>{labels.whatToDo}</h3>
+  <ul>
+    {level.todo.map((item) => <li>{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .result > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .result h3 {
+    margin-top: var(--space-4);
+  }
+
+  .result__meter {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    max-width: 16rem;
+  }
+
+  .result__meter span {
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-soft);
+    border: 1px solid var(--color-border);
+  }
+
+  .result__meter span.is-on {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .result__title {
+    font-size: var(--fs-h1);
+  }
+
+  .result__title:focus {
+    outline: none;
+  }
+
+  .result__score {
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  .result ul {
+    padding-left: 1.25em;
+  }
+
+  .result li + li {
+    margin-top: var(--space-1);
+  }
+</style>

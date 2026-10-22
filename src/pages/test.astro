@@ -1,13 +1,406 @@
 ---
 import Base from '../layouts/Base.astro';
+import Draft from '../components/Draft.astro';
+import Icon from '../components/Icon.astro';
 import PageHead from '../components/PageHead.astro';
-import Pending from '../components/Pending.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+import QuizStep from '../components/QuizStep.astro';
+import ResultCard from '../components/ResultCard.astro';
 import pages from '../content/pages.json';
+import test from '../content/test.json';
 
-const page = pages['test'];
+const page = pages.test;
+const { intro, ui, questions, levels } = test;
+
+// Puntuación máxima posible (ficticia), para mostrar «x de y».
+const maxScore = questions.reduce((sum, q) => {
+  if (q.type === 'single') return sum + Math.max(...q.options!.map((o) => o.points));
+  if (q.type === 'multiple') return sum + q.options!.reduce((s, o) => s + o.points, 0);
+  return sum + Math.max(0, ...(q.bmiPoints ?? []).map((b) => b.points));
+}, 0);
+
+const config = {
+  total: questions.length,
+  maxScore,
+  levels: levels.map((l) => ({ id: l.id, below: l.below })),
+  bmiPoints: questions.find((q) => q.bmiPoints)?.bmiPoints ?? [],
+  ui,
+};
 ---
 
 <Base title={page.title} description={page.lede}>
-  <PageHead title={page.title} lede={page.lede} />
-  <Pending />
+  <PageHead title={page.title} lede={page.lede}>
+    <Draft note={ui.draftNote} />
+  </PageHead>
+
+  <div class="container">
+    <div class="test" data-test>
+      {/* Pantalla inicial */}
+      <section class="screen" data-screen="intro" aria-labelledby="intro-title">
+        <h2 id="intro-title">{intro.title}</h2>
+        <p class="lead">{intro.text}</p>
+        <ul class="facts" role="list">
+          {
+            intro.facts.map((f) => (
+              <li>
+                <span class="facts__icon">
+                  <Icon name={f.icon} />
+                </span>
+                {f.text}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="warning">
+          <p class="warning__title"><Icon name="circle-alert" /> {intro.warningTitle}</p>
+          <p>{intro.warning}</p>
+        </div>
+        <p class="emergency-note">{ui.emergency}</p>
+        <button type="button" class="btn btn--big" data-start>{intro.start}</button>
+        <noscript><p class="noscript">{intro.noscript}</p></noscript>
+      </section>
+
+      {/* Preguntas */}
+      <form class="screen" data-screen="quiz" hidden novalidate aria-label={page.title}>
+        <ProgressBar label={ui.progress.replace('{n}', '1').replace('{total}', String(questions.length))} />
+        <div class="steps">
+          {questions.map((q, i) => <QuizStep question={q} index={i} optionalLabel={ui.optional} />)}
+        </div>
+        <p class="error" data-error aria-live="assertive"></p>
+        <div class="nav">
+          <button type="button" class="btn btn--quiet" data-back>
+            <Icon name="arrow-left" />
+            {ui.back}
+          </button>
+          <button type="button" class="btn btn--quiet nav__skip" data-skip hidden>{ui.skip}</button>
+          <button type="submit" class="btn" data-next data-next-label={ui.next} data-finish-label={ui.finish}>
+            {ui.next}
+          </button>
+        </div>
+      </form>
+
+      {/* Resultado */}
+      <section class="screen" data-screen="result" hidden aria-label={ui.resultLabel}>
+        {
+          levels.map((level, i) => (
+            <ResultCard level={level} position={i} total={levels.length} labels={ui} />
+          ))
+        }
+        <p class="result-note"><Icon name="info" /> {test.resultNote}</p>
+        <p class="emergency-note">{ui.emergency}</p>
+        <div class="result-actions">
+          <button type="button" class="btn" data-restart>
+            <Icon name="rotate-ccw" />
+            {ui.restart}
+          </button>
+          {test.links.map((l) => <a class="btn btn--quiet" href={l.href}>{l.label}</a>)}
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="application/json" id="test-config" set:html={JSON.stringify(config)} />
 </Base>
+
+<script>
+  type Config = {
+    total: number;
+    maxScore: number;
+    levels: { id: string; below: number | null }[];
+    bmiPoints: { from: number; points: number }[];
+    ui: Record<string, string>;
+  };
+
+  // Todo el estado vive en memoria (en el propio formulario). Nada se guarda ni se envía.
+  const config: Config = JSON.parse(document.getElementById('test-config')!.textContent!);
+  const root = document.querySelector<HTMLElement>('[data-test]')!;
+  const screens = {
+    intro: root.querySelector<HTMLElement>('[data-screen="intro"]')!,
+    quiz: root.querySelector<HTMLFormElement>('[data-screen="quiz"]')!,
+    result: root.querySelector<HTMLElement>('[data-screen="result"]')!,
+  };
+  const form = screens.quiz;
+  const steps = [...form.querySelectorAll<HTMLFieldSetElement>('[data-step]')];
+  const error = form.querySelector<HTMLElement>('[data-error]')!;
+  const nextBtn = form.querySelector<HTMLButtonElement>('[data-next]')!;
+  const skipBtn = form.querySelector<HTMLButtonElement>('[data-skip]')!;
+  const progressText = form.querySelector<HTMLElement>('[data-progress-text]')!;
+  const progressFill = form.querySelector<HTMLElement>('[data-progress-fill]')!;
+  let current = 0;
+
+  const t = (key: string, vars: Record<string, string | number> = {}) =>
+    Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), config.ui[key]);
+
+  function show(name: keyof typeof screens) {
+    Object.entries(screens).forEach(([key, el]) => (el.hidden = key !== name));
+  }
+
+  function goTo(index: number, focus = true) {
+    current = index;
+    steps.forEach((s, i) => (s.hidden = i !== index));
+    error.textContent = '';
+    progressText.textContent = t('progress', { n: index + 1, total: config.total });
+    progressFill.style.width = `${((index + 1) / config.total) * 100}%`;
+    const last = index === steps.length - 1;
+    nextBtn.textContent = last ? nextBtn.dataset.finishLabel! : nextBtn.dataset.nextLabel!;
+    skipBtn.hidden = steps[index].dataset.optional !== 'true';
+    if (focus) steps[index].querySelector<HTMLElement>('[data-step-title]')?.focus();
+  }
+
+  function numberInputs(step: HTMLElement) {
+    return [...step.querySelectorAll<HTMLInputElement>('input[type="number"]')];
+  }
+
+  function validate(step: HTMLFieldSetElement): string | null {
+    if (step.dataset.type === 'measures') {
+      for (const input of numberInputs(step)) {
+        const value = input.valueAsNumber;
+        const invalid = input.value !== '' && (Number.isNaN(value) || value < +input.min || value > +input.max);
+        input.setAttribute('aria-invalid', String(invalid));
+        if (invalid) {
+          input.focus();
+          return t('invalidNumber', { min: input.min, max: input.max });
+        }
+      }
+      return null;
+    }
+    const answered = step.querySelector('input:checked');
+    if (!answered && step.dataset.optional !== 'true') {
+      step.querySelector<HTMLInputElement>('input')?.focus();
+      return t('required');
+    }
+    return null;
+  }
+
+  function score() {
+    let total = 0;
+    form.querySelectorAll<HTMLInputElement>('input:checked').forEach((i) => (total += Number(i.dataset.points)));
+    const peso = form.querySelector<HTMLInputElement>('[data-field="peso"]')?.valueAsNumber;
+    const altura = form.querySelector<HTMLInputElement>('[data-field="altura"]')?.valueAsNumber;
+    if (peso && altura) {
+      const bmi = peso / (altura / 100) ** 2;
+      total += config.bmiPoints.find((b) => bmi >= b.from)?.points ?? 0;
+    }
+    return total;
+  }
+
+  function showResult() {
+    const value = score();
+    const level = config.levels.find((l) => l.below === null || value < l.below)!;
+    screens.result.querySelectorAll<HTMLElement>('[data-level]').forEach((card) => {
+      card.hidden = card.dataset.level !== level.id;
+    });
+    const card = screens.result.querySelector<HTMLElement>(`[data-level="${level.id}"]`)!;
+    card.querySelector('[data-result-score]')!.textContent = t('scoreLabel', { score: value, max: config.maxScore });
+    show('result');
+    card.querySelector<HTMLElement>('[data-result-title]')!.focus();
+  }
+
+  root.querySelector('[data-start]')!.addEventListener('click', () => {
+    show('quiz');
+    goTo(0);
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const message = validate(steps[current]);
+    if (message) {
+      error.textContent = message;
+      return;
+    }
+    if (current < steps.length - 1) goTo(current + 1);
+    else showResult();
+  });
+
+  form.querySelector('[data-back]')!.addEventListener('click', () => {
+    if (current === 0) {
+      show('intro');
+      root.querySelector<HTMLElement>('[data-start]')!.focus();
+    } else {
+      goTo(current - 1);
+    }
+  });
+
+  skipBtn.addEventListener('click', () => {
+    numberInputs(steps[current]).forEach((i) => {
+      i.value = '';
+      i.removeAttribute('aria-invalid');
+    });
+    if (current < steps.length - 1) goTo(current + 1);
+    else showResult();
+  });
+
+  // «Ninguna» desmarca las demás casillas, y al revés.
+  form.addEventListener('change', (event) => {
+    const input = event.target as HTMLInputElement;
+    if (input.type !== 'checkbox' || !input.checked) return;
+    const group = form.querySelectorAll<HTMLInputElement>(`input[name="${input.name}"]`);
+    group.forEach((other) => {
+      if (other === input) return;
+      if (input.dataset.exclusive || other.dataset.exclusive) other.checked = false;
+    });
+  });
+
+  // Al responder o corregir un valor, el aviso desaparece.
+  form.addEventListener('change', () => (error.textContent = ''));
+  form.addEventListener('input', (event) => {
+    const input = event.target as HTMLInputElement;
+    if (input.type === 'number' && input.hasAttribute('aria-invalid')) {
+      input.removeAttribute('aria-invalid');
+      error.textContent = '';
+    }
+  });
+
+  root.querySelector('[data-restart]')!.addEventListener('click', () => {
+    form.reset();
+    form.querySelectorAll('[aria-invalid]').forEach((i) => i.removeAttribute('aria-invalid'));
+    show('quiz');
+    goTo(0);
+  });
+</script>
+
+<style>
+  .test {
+    max-width: 44rem;
+    padding: var(--space-4) var(--space-2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  @media (min-width: 640px) {
+    .test {
+      padding: var(--space-6) var(--space-5);
+    }
+  }
+
+  .screen > * + * {
+    margin-top: var(--space-3);
+  }
+
+  .lead {
+    font-size: 1.25rem;
+  }
+
+  .facts {
+    display: grid;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .facts li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .facts__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+
+  .warning {
+    padding: var(--space-2) var(--space-3);
+    border: 2px dashed var(--color-draft-border);
+    border-radius: var(--radius-card);
+    background: var(--color-draft-bg);
+    color: var(--color-draft-text);
+  }
+
+  .warning__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-weight: 700;
+  }
+
+  .warning p + p {
+    margin-top: var(--space-1);
+  }
+
+  .emergency-note {
+    font-size: var(--fs-small);
+    padding-left: var(--space-2);
+    border-left: 4px solid var(--color-text);
+  }
+
+  .btn--big {
+    min-height: 3.5rem;
+    padding-inline: var(--space-5);
+    font-size: 1.25rem;
+  }
+
+  .noscript {
+    font-weight: 700;
+  }
+
+  .steps {
+    margin-top: var(--space-4);
+  }
+
+  .error {
+    font-weight: 700;
+  }
+
+  .error:empty {
+    display: none;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: space-between;
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav [data-next] {
+    min-width: 10rem;
+  }
+
+  /* Móvil: botones a lo ancho, la acción principal primero. */
+  @media (max-width: 479px) {
+    .nav {
+      flex-direction: column;
+    }
+
+    .nav [data-next] {
+      order: -2;
+    }
+
+    .nav__skip {
+      order: -1;
+    }
+  }
+
+  .result-note {
+    display: flex;
+    gap: var(--space-1);
+    align-items: flex-start;
+    margin-top: var(--space-5);
+    padding: var(--space-2);
+    background: var(--color-primary-soft);
+    border-radius: var(--radius-card);
+    font-size: var(--fs-small);
+  }
+
+  .result-note :global(.icon) {
+    margin-top: 0.15em;
+    color: var(--color-primary);
+  }
+
+  .result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+</style>

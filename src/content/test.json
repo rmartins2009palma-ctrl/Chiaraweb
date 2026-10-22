@@ -1,0 +1,324 @@
+{
+  "_nota": "PROVISIONAL. Puntuación FICTICIA solo para el prototipo: no es SCORE2, REGICOR ni ninguna escala validada. Sustituir cuando la clienta entregue la escala real.",
+  "intro": {
+    "title": "¿Cómo está tu corazón?",
+    "text": "Este test te ayuda a pensar en los factores que influyen en tu riesgo cardiovascular: la probabilidad de tener un problema del corazón en el futuro.",
+    "facts": [
+      {
+        "icon": "list-checks",
+        "text": "10 preguntas sencillas"
+      },
+      {
+        "icon": "clock",
+        "text": "Unos 2 minutos"
+      },
+      {
+        "icon": "shield-check",
+        "text": "No se guarda ni se envía ningún dato. Todo se queda en tu dispositivo y se borra al salir."
+      }
+    ],
+    "warningTitle": "Lógica de puntuación provisional",
+    "warning": "En este prototipo la puntuación es ficticia, solo para mostrar cómo funcionará el test. El resultado no es un diagnóstico ni una estimación real de tu riesgo.",
+    "start": "Empezar el test",
+    "noscript": "Para hacer el test necesitas tener JavaScript activado en tu navegador."
+  },
+  "ui": {
+    "progress": "Pregunta {n} de {total}",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Ver resultado",
+    "required": "Elige una opción para continuar.",
+    "optional": "Opcional",
+    "skip": "Prefiero no indicarlo",
+    "restart": "Repetir test",
+    "resultLabel": "Tu resultado",
+    "scoreLabel": "Puntuación orientativa (ficticia): {score} de {max}",
+    "whatMeans": "Qué significa",
+    "whatToDo": "Qué puedes hacer",
+    "emergency": "Si ahora mismo tienes síntomas como presión en el pecho, falta de aire o sudor frío, no sigas con el test: llama al 061.",
+    "invalidNumber": "Revisa el valor: debe estar entre {min} y {max}.",
+    "draftNote": "Puntuación ficticia"
+  },
+  "questions": [
+    {
+      "id": "edad",
+      "type": "single",
+      "title": "¿Qué edad tienes?",
+      "options": [
+        {
+          "label": "Menos de 40 años",
+          "points": 0
+        },
+        {
+          "label": "Entre 40 y 49 años",
+          "points": 1
+        },
+        {
+          "label": "Entre 50 y 59 años",
+          "points": 2
+        },
+        {
+          "label": "Entre 60 y 69 años",
+          "points": 3
+        },
+        {
+          "label": "70 años o más",
+          "points": 4
+        }
+      ]
+    },
+    {
+      "id": "tabaco",
+      "type": "single",
+      "title": "¿Fumas?",
+      "options": [
+        {
+          "label": "Nunca he fumado",
+          "points": 0
+        },
+        {
+          "label": "Lo dejé hace más de un año",
+          "points": 1
+        },
+        {
+          "label": "Lo dejé hace menos de un año",
+          "points": 2
+        },
+        {
+          "label": "Sí, fumo",
+          "points": 3
+        }
+      ]
+    },
+    {
+      "id": "tension",
+      "type": "single",
+      "title": "¿Te han dicho que tienes la tensión alta?",
+      "options": [
+        {
+          "label": "No",
+          "points": 0
+        },
+        {
+          "label": "Sí",
+          "points": 2
+        },
+        {
+          "label": "No lo sé",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "id": "colesterol",
+      "type": "single",
+      "title": "¿Te han dicho que tienes el colesterol alto?",
+      "options": [
+        {
+          "label": "No",
+          "points": 0
+        },
+        {
+          "label": "Sí",
+          "points": 2
+        },
+        {
+          "label": "No lo sé",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "id": "diabetes",
+      "type": "single",
+      "title": "¿Tienes diabetes?",
+      "options": [
+        {
+          "label": "No",
+          "points": 0
+        },
+        {
+          "label": "Sí",
+          "points": 3
+        },
+        {
+          "label": "No lo sé",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "id": "familia",
+      "type": "single",
+      "title": "¿Tu padre, tu madre o algún hermano o hermana ha tenido un infarto o un problema del corazón a una edad temprana?",
+      "options": [
+        {
+          "label": "No",
+          "points": 0
+        },
+        {
+          "label": "Sí",
+          "points": 2
+        },
+        {
+          "label": "No lo sé",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "id": "actividad",
+      "type": "single",
+      "title": "En una semana normal, ¿cuánto te mueves?",
+      "help": "Caminar a buen paso, subir escaleras, bailar, nadar o cualquier actividad que te haga respirar más rápido.",
+      "options": [
+        {
+          "label": "Casi nada",
+          "points": 2
+        },
+        {
+          "label": "Algunos días",
+          "points": 1
+        },
+        {
+          "label": "Casi todos los días",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": "menopausia",
+      "type": "single",
+      "title": "¿Has tenido ya la menopausia?",
+      "options": [
+        {
+          "label": "No",
+          "points": 0
+        },
+        {
+          "label": "Estoy en ello",
+          "points": 1
+        },
+        {
+          "label": "Sí",
+          "points": 1
+        },
+        {
+          "label": "No lo sé",
+          "points": 0
+        }
+      ]
+    },
+    {
+      "id": "medicacion",
+      "type": "multiple",
+      "title": "¿Tomas alguna de estas medicaciones?",
+      "help": "Puedes marcar varias.",
+      "options": [
+        {
+          "label": "Para la tensión (antihipertensivos)",
+          "points": 1
+        },
+        {
+          "label": "Para el colesterol (estatinas)",
+          "points": 1
+        },
+        {
+          "label": "Para la diabetes (antidiabéticos)",
+          "points": 1
+        },
+        {
+          "label": "Anticonceptivos hormonales",
+          "points": 1
+        },
+        {
+          "label": "Otra medicación",
+          "points": 0
+        },
+        {
+          "label": "Ninguna",
+          "points": 0,
+          "exclusive": true
+        }
+      ]
+    },
+    {
+      "id": "peso",
+      "type": "measures",
+      "title": "¿Cuánto pesas y cuánto mides?",
+      "help": "Si lo prefieres, puedes dejarlo en blanco.",
+      "optional": true,
+      "fields": [
+        {
+          "id": "peso",
+          "label": "Peso",
+          "unit": "kg",
+          "min": 30,
+          "max": 250
+        },
+        {
+          "id": "altura",
+          "label": "Altura",
+          "unit": "cm",
+          "min": 120,
+          "max": 220
+        }
+      ],
+      "bmiPoints": [
+        {
+          "from": 30,
+          "points": 2
+        },
+        {
+          "from": 25,
+          "points": 1
+        }
+      ]
+    }
+  ],
+  "levels": [
+    {
+      "id": "bajo",
+      "below": 6,
+      "title": "Riesgo bajo",
+      "meaning": "Según tus respuestas, tienes pocos factores que aumenten tu riesgo cardiovascular.",
+      "todo": [
+        "Mantén tus hábitos: moverte a diario, comer variado y no fumar.",
+        "Pregunta en tu centro de salud cada cuánto conviene revisar tu tensión y tu colesterol."
+      ]
+    },
+    {
+      "id": "moderado",
+      "below": 12,
+      "title": "Riesgo moderado",
+      "meaning": "Tienes algunos factores que pueden aumentar tu riesgo cardiovascular. Muchos de ellos se pueden mejorar.",
+      "todo": [
+        "Pide cita en tu centro de salud para revisar tu tensión, tu colesterol y tu azúcar.",
+        "Cuéntales los síntomas que hayas notado, aunque te parezcan poca cosa.",
+        "Si fumas, pregunta por la ayuda para dejarlo."
+      ]
+    },
+    {
+      "id": "alto",
+      "below": null,
+      "title": "Riesgo alto",
+      "meaning": "Tienes varios factores que aumentan tu riesgo cardiovascular. Conviene que un profesional valore tu situación.",
+      "todo": [
+        "Pide cita en tu centro de salud pronto y lleva la lista de tu medicación.",
+        "Aprende a reconocer los síntomas del infarto en la mujer.",
+        "Ante cualquier síntoma sospechoso, llama al 061 sin esperar."
+      ]
+    }
+  ],
+  "resultNote": "Este resultado es orientativo y usa una puntuación ficticia. No es un diagnóstico. Consulta siempre en tu centro de salud.",
+  "links": [
+    {
+      "href": "/sintomas",
+      "label": "Ver los síntomas"
+    },
+    {
+      "href": "/que-hacer",
+      "label": "Qué hacer ante un infarto"
+    }
+  ]
+}
