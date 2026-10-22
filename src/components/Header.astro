@@ -70,6 +70,12 @@ const isCurrent = (href: string) => current === href;
       toggle.focus();
     }
   });
+
+  // Un clic fuera de la cabecera cierra el menú.
+  document.addEventListener('click', (event) => {
+    const header = toggle?.closest('.site-header');
+    if (header && !header.contains(event.target as Node)) setOpen(false);
+  });
 </script>
 
 <style>

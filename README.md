@@ -26,3 +26,9 @@ Hay dos paletas para elegir: **A · Ciruela** y **B · Petróleo**. Se cambian c
 - `src/pages/`: una página por ruta.
 
 El texto provisional se marca con la etiqueta `PROVISIONAL` (componente `Draft`).
+
+## Fotos
+
+Las fotos se generan con IA a partir de los prompts de [docs/prompts-fotos.md](docs/prompts-fotos.md).
+Basta con dejar cada archivo en `src/assets/fotos/` con el nombre indicado (por ejemplo `sintoma-sudor-frio.jpg`).
+Astro las optimiza al compilar. Mientras falte alguna, la web muestra un recuadro «Foto pendiente».

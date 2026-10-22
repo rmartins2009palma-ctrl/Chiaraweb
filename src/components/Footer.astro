@@ -50,6 +50,11 @@ import Draft from './Draft.astro';
     color: var(--color-on-primary);
   }
 
+  /* Sobre el fondo oscuro, el anillo de foco oscuro no se vería. */
+  .site-footer :focus-visible {
+    outline-color: var(--color-on-primary);
+  }
+
   .site-footer__grid {
     display: grid;
     gap: var(--space-5);
