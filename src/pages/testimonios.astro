@@ -7,6 +7,7 @@ import PageHead from '../components/PageHead.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import pages from '../content/pages.json';
 import data from '../content/testimonios.json';
+import { isFinal } from '../lib/mode';
 import { hasAnyPhoto } from '../lib/photos';
 
 const page = pages.testimonios;
@@ -44,64 +45,73 @@ const showAiNote = hasAnyPhoto(data.items.map((t) => t.photo));
     <section class="share" aria-labelledby="form-title">
       <h2 id="form-title">{f.title}</h2>
       <p class="share__intro">{f.intro}</p>
-      <p class="share__note"><Draft note={f.prototypeNote} /></p>
+      {/* Sin un servicio que reciba los relatos, la web final no muestra el formulario. */}
+      {
+        isFinal ? (
+          <p class="share__soon">{f.comingSoon}</p>
+        ) : (
+          <>
+            <p class="share__note"><Draft note={f.prototypeNote} /></p>
 
-      <form class="form" data-share-form novalidate>
-        <p class="form__summary" data-summary tabindex="-1" hidden>{f.errors.summary}</p>
+            <form class="form" data-share-form novalidate>
+              <p class="form__summary" data-summary tabindex="-1" hidden>{f.errors.summary}</p>
 
-        <div class="form__field">
-          <label for="share-name">{f.fields.name}</label>
-          <p class="form__help" id="share-name-help">{f.fields.nameHelp}</p>
-          <input id="share-name" name="name" type="text" autocomplete="nickname" aria-describedby="share-name-help" />
-        </div>
+              <div class="form__field">
+                <label for="share-name">{f.fields.name}</label>
+                <p class="form__help" id="share-name-help">{f.fields.nameHelp}</p>
+                <input id="share-name" name="name" type="text" autocomplete="nickname" aria-describedby="share-name-help" />
+              </div>
 
-        <div class="form__field form__field--short">
-          <label for="share-age">{f.fields.age}</label>
-          <p class="form__help" id="share-age-help">{f.fields.ageHelp}</p>
-          <input
-            id="share-age"
-            name="age"
-            type="number"
-            inputmode="numeric"
-            min="18"
-            max="110"
-            aria-describedby="share-age-help"
-          />
-        </div>
+              <div class="form__field form__field--short">
+                <label for="share-age">{f.fields.age}</label>
+                <p class="form__help" id="share-age-help">{f.fields.ageHelp}</p>
+                <input
+                  id="share-age"
+                  name="age"
+                  type="number"
+                  inputmode="numeric"
+                  min="18"
+                  max="110"
+                  aria-describedby="share-age-help"
+                />
+              </div>
 
-        <div class="form__field">
-          <label for="share-story">
-            {f.fields.story} <span class="form__req">({f.required})</span>
-          </label>
-          <p class="form__help" id="share-story-help">{f.fields.storyHelp}</p>
-          <p class="form__error" id="share-story-error" hidden>{f.errors.story}</p>
-          <textarea
-            id="share-story"
-            name="story"
-            rows="7"
-            required
-            aria-describedby="share-story-help share-story-error"></textarea>
-        </div>
+              <div class="form__field">
+                <label for="share-story">
+                  {f.fields.story} <span class="form__req">({f.required})</span>
+                </label>
+                <p class="form__help" id="share-story-help">{f.fields.storyHelp}</p>
+                <p class="form__error" id="share-story-error" hidden>{f.errors.story}</p>
+                <textarea
+                  id="share-story"
+                  name="story"
+                  rows="7"
+                  required
+                  aria-describedby="share-story-help share-story-error"></textarea>
+              </div>
 
-        <div class="form__field">
-          <p class="form__error" id="share-consent-error" hidden>{f.errors.consent}</p>
-          <label class="form__check">
-            <input
-              type="checkbox"
-              name="consent"
-              required
-              aria-describedby="share-consent-error"
-            />
-            <span>{f.fields.consent} <span class="form__req">({f.required})</span></span>
-          </label>
-        </div>
+              <div class="form__field">
+                <p class="form__error" id="share-consent-error" hidden>{f.errors.consent}</p>
+                <label class="form__check">
+                  <input
+                    type="checkbox"
+                    name="consent"
+                    required
+                    aria-describedby="share-consent-error"
+                  />
+                  <span>{f.fields.consent} <span class="form__req">({f.required})</span></span>
+                </label>
+              </div>
 
-        <button type="submit" class="btn">{f.submit}</button>
-      </form>
+              <button type="submit" class="btn">{f.submit}</button>
+            </form>
 
-      <div class="success" data-success role="status" hidden>
-        <p>{f.success}</p>
-      </div>
+            <div class="success" data-success role="status" hidden>
+              <p>{f.success}</p>
+            </div>
+          </>
+        )
+      }
     </section>
 
     <section class="rules" aria-labelledby="rules-title">
@@ -130,36 +140,39 @@ const showAiNote = hasAnyPhoto(data.items.map((t) => t.photo));
     });
   });
 
-  // Formulario: valida en el navegador y muestra el agradecimiento. No envía nada.
-  const form = document.querySelector<HTMLFormElement>('[data-share-form]')!;
-  const success = document.querySelector<HTMLElement>('[data-success]')!;
-  const summary = form.querySelector<HTMLElement>('[data-summary]')!;
-  const story = form.querySelector<HTMLTextAreaElement>('#share-story')!;
-  const consent = form.querySelector<HTMLInputElement>('[name="consent"]')!;
+  // Formulario (solo en el prototipo): valida en el navegador y muestra el agradecimiento. No envía nada.
+  const form = document.querySelector<HTMLFormElement>('[data-share-form]');
 
   function setError(input: HTMLInputElement | HTMLTextAreaElement, errorId: string, invalid: boolean) {
     input.setAttribute('aria-invalid', String(invalid));
     document.getElementById(errorId)!.hidden = !invalid;
   }
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const storyInvalid = story.value.trim() === '';
-    const consentInvalid = !consent.checked;
-    setError(story, 'share-story-error', storyInvalid);
-    setError(consent, 'share-consent-error', consentInvalid);
+  if (form) {
+    const success = document.querySelector<HTMLElement>('[data-success]')!;
+    const summary = form.querySelector<HTMLElement>('[data-summary]')!;
+    const story = form.querySelector<HTMLTextAreaElement>('#share-story')!;
+    const consent = form.querySelector<HTMLInputElement>('[name="consent"]')!;
 
-    if (storyInvalid || consentInvalid) {
-      summary.hidden = false;
-      summary.focus();
-      return;
-    }
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const storyInvalid = story.value.trim() === '';
+      const consentInvalid = !consent.checked;
+      setError(story, 'share-story-error', storyInvalid);
+      setError(consent, 'share-consent-error', consentInvalid);
 
-    summary.hidden = true;
-    form.reset();
-    form.hidden = true;
-    success.hidden = false;
-  });
+      if (storyInvalid || consentInvalid) {
+        summary.hidden = false;
+        summary.focus();
+        return;
+      }
+
+      summary.hidden = true;
+      form.reset();
+      form.hidden = true;
+      success.hidden = false;
+    });
+  }
 </script>
 
 <style>
@@ -307,6 +320,15 @@ const showAiNote = hasAnyPhoto(data.items.map((t) => t.photo));
 
   .form .btn {
     justify-self: start;
+  }
+
+  .share__soon {
+    margin-top: var(--space-3);
+    padding: var(--space-3);
+    border-left: 6px solid var(--color-primary);
+    border-radius: var(--radius-card);
+    background: var(--color-primary-soft);
+    max-width: var(--measure);
   }
 
   .success {

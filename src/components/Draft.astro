@@ -1,10 +1,12 @@
 ---
 /**
- * Marca un contenido como PROVISIONAL.
+ * Marca un contenido como PROVISIONAL. En la web final (MODO=final) la etiqueta no se muestra
+ * y el contenido envuelto se pinta tal cual.
  * - Sin contenido dentro: etiqueta en línea.
  * - Con contenido dentro: bloque con borde discontinuo y la etiqueta arriba.
  */
 import site from '../content/site.json';
+import { isFinal } from '../lib/mode';
 
 interface Props {
   /** Fuerza la etiqueta en línea aunque haya contenido. */
@@ -18,7 +20,9 @@ const label = site.ui.draftLabel;
 ---
 
 {
-  hasContent && !inline ? (
+  isFinal ? (
+    hasContent && <slot />
+  ) : hasContent && !inline ? (
     <div class="draft-block">
       <span class="draft-tag">
         {label}

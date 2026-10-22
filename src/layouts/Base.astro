@@ -1,5 +1,4 @@
 ---
-import { url } from '../lib/url';
 import '@fontsource-variable/newsreader/opsz.css';
 import '@fontsource-variable/hanken-grotesk';
 import '../styles/global.css';
@@ -8,6 +7,8 @@ import EmergencyDialog from '../components/EmergencyDialog.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+import { finalTheme, isFinal } from '../lib/mode';
+import { url } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -19,27 +20,32 @@ const fullTitle = title ? `${title} | ${site.siteName}` : `${site.siteName}: ${s
 ---
 
 <!doctype html>
-<html lang="es" data-theme="a">
+<html lang="es" data-theme={isFinal ? finalTheme : 'a'} data-modo={isFinal ? 'final' : 'prototipo'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex" />
+    {/* El prototipo no debe aparecer en buscadores; la web final sí. */}
+    {!isFinal && <meta name="robots" content="noindex" />}
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <title>{fullTitle}</title>
-    <script is:inline>
-      // Tema antes del primer pintado: ?tema= en la URL o, si no, el elegido en esta sesión.
-      (function () {
-        var param = new URLSearchParams(location.search).get('tema');
-        var valid = param === 'a' || param === 'b';
-        var saved = null;
-        try {
-          saved = sessionStorage.getItem('tema');
-          if (valid) sessionStorage.setItem('tema', param);
-        } catch (e) {}
-        document.documentElement.setAttribute('data-theme', valid ? param : saved === 'b' ? 'b' : 'a');
-      })();
-    </script>
+    {
+      !isFinal && (
+        <script is:inline>
+          // Prototipo: tema antes del primer pintado, desde ?tema= en la URL o el elegido en esta sesión.
+          (function () {
+            var param = new URLSearchParams(location.search).get('tema');
+            var valid = param === 'a' || param === 'b';
+            var saved = null;
+            try {
+              saved = sessionStorage.getItem('tema');
+              if (valid) sessionStorage.setItem('tema', param);
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', valid ? param : saved === 'b' ? 'b' : 'a');
+          })();
+        </script>
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#contenido">{site.ui.skipLink}</a>
@@ -49,6 +55,6 @@ const fullTitle = title ? `${title} | ${site.siteName}` : `${site.siteName}: ${s
     </main>
     <Footer />
     <EmergencyDialog />
-    <ThemeSwitcher />
+    {!isFinal && <ThemeSwitcher />}
   </body>
 </html>

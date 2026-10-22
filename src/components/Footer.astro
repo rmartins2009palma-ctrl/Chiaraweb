@@ -4,6 +4,7 @@ import site from '../content/site.json';
 import BrandMark from './BrandMark.astro';
 import Disclaimer from './Disclaimer.astro';
 import Draft from './Draft.astro';
+import { isFinal } from '../lib/mode';
 ---
 
 <footer class="site-footer">
@@ -32,10 +33,14 @@ import Draft from './Draft.astro';
     </nav>
   </div>
 
-  <div class="container site-footer__bottom">
-    <Draft />
-    <p>{site.footer.prototypeNote}</p>
-  </div>
+  {
+    !isFinal && (
+      <div class="container site-footer__bottom">
+        <Draft />
+        <p>{site.footer.prototypeNote}</p>
+      </div>
+    )
+  }
 </footer>
 
 <style>

@@ -81,7 +81,8 @@
       "consent": "Marca la casilla de consentimiento para poder enviarlo.",
       "summary": "Revisa los campos marcados."
     },
-    "success": "Gracias. Tu relato se revisará antes de publicarse."
+    "success": "Gracias. Tu relato se revisará antes de publicarse.",
+    "comingSoon": "Muy pronto podrás compartir aquí tu experiencia. Mientras tanto, puedes leer las normas de la comunidad."
   },
   "rules": {
     "title": "Normas de la comunidad",

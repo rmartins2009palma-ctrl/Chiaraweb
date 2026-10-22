@@ -9,6 +9,7 @@ import { Picture } from 'astro:assets';
 import site from '../content/site.json';
 import Icon from './Icon.astro';
 import { getPhoto } from '../lib/photos';
+import { isFinal } from '../lib/mode';
 
 interface Props {
   name: string;
@@ -36,34 +37,41 @@ const {
 const image = getPhoto(name);
 ---
 
-<figure class:list={['photo', className]} style={`--ratio:${ratio}`}>
-  {
-    image ? (
-      <Picture
-        src={image}
-        alt={decorative ? '' : alt}
-        widths={[...[480, 800, 1200, 1600].filter((w) => w < image.width), image.width]}
-        sizes={sizes}
-        formats={['avif', 'webp']}
-        class="photo__img"
-      />
-    ) : (
-      <div
-        class="photo__pending"
-        role={decorative ? undefined : 'img'}
-        aria-label={decorative ? undefined : `${site.ui.photoPending}: ${alt}`}
-        aria-hidden={decorative ? 'true' : undefined}
-      >
-        <Icon name="image" />
-        <span>
-          {site.ui.photoPending}
-          <code>{name}</code>
-        </span>
-      </div>
-    )
-  }
-  {image && aiCredit && <figcaption class="photo__credit" aria-hidden={decorative ? 'true' : undefined}>{site.ui.photoAiCredit}</figcaption>}
-</figure>
+{/* En la web final, una foto que falte simplemente no aparece. */}
+{
+  (image || !isFinal) && (
+    <figure class:list={['photo', className]} style={`--ratio:${ratio}`}>
+      {image ? (
+        <Picture
+          src={image}
+          alt={decorative ? '' : alt}
+          widths={[...[480, 800, 1200, 1600].filter((w) => w < image.width), image.width]}
+          sizes={sizes}
+          formats={['avif', 'webp']}
+          class="photo__img"
+        />
+      ) : (
+        <div
+          class="photo__pending"
+          role={decorative ? undefined : 'img'}
+          aria-label={decorative ? undefined : `${site.ui.photoPending}: ${alt}`}
+          aria-hidden={decorative ? 'true' : undefined}
+        >
+          <Icon name="image" />
+          <span>
+            {site.ui.photoPending}
+            <code>{name}</code>
+          </span>
+        </div>
+      )}
+      {image && aiCredit && (
+        <figcaption class="photo__credit" aria-hidden={decorative ? 'true' : undefined}>
+          {site.ui.photoAiCredit}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
 
 <style>
   .photo {
