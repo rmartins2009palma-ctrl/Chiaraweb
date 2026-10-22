@@ -7,7 +7,6 @@ import Base from '../layouts/Base.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 import Draft from '../components/Draft.astro';
 import EmergencyButton from '../components/EmergencyButton.astro';
-import Icon from '../components/Icon.astro';
 import PageHead from '../components/PageHead.astro';
 import Photo from '../components/Photo.astro';
 import pages from '../content/pages.json';
@@ -65,7 +64,6 @@ const showAiNote = hasAnyPhoto(data.steps.map((s) => s.photo));
     {showAiNote && <p class="ai-note">{data.photosNote}</p>}
 
     <div class="company">
-      <span class="company__icon"><Icon name="users" /></span>
       <div>
         <h3>{data.company.title}</h3>
         <p>{data.company.text}</p>
@@ -134,6 +132,7 @@ const showAiNote = hasAnyPhoto(data.steps.map((s) => s.photo));
   }
 
   .step__num {
+    font-family: var(--font-display);
     display: grid;
     place-items: center;
     width: 56px;
@@ -194,15 +193,6 @@ const showAiNote = hasAnyPhoto(data.steps.map((s) => s.photo));
     padding: var(--space-3);
     background: var(--color-primary-soft);
     border-radius: var(--radius-card);
-  }
-
-  .company__icon {
-    color: var(--color-primary);
-  }
-
-  .company__icon :global(.icon) {
-    width: 32px;
-    height: 32px;
   }
 
   .company p {

@@ -38,7 +38,9 @@
   --color-draft-border: #8a6d00;
 
   /* Tipografía */
-  --font-sans: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Titulares en serif editorial; texto e interfaz en grotesca (patrón de Maven Clinic o One Medical). */
+  --font-display: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Hanken Grotesk Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fs-body: 1.125rem; /* 18px */
   --fs-small: 1rem; /* 16px */
   --fs-h1: 1.75rem; /* 28px */

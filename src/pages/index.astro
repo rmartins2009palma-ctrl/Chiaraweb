@@ -3,8 +3,6 @@ import Base from '../layouts/Base.astro';
 import BodySilhouette from '../components/BodySilhouette.astro';
 import Draft from '../components/Draft.astro';
 import EmergencyButton from '../components/EmergencyButton.astro';
-import Icon from '../components/Icon.astro';
-import SymptomCard from '../components/SymptomCard.astro';
 import home from '../content/home.json';
 import sintomas from '../content/sintomas.json';
 
@@ -45,13 +43,7 @@ const heroZones = [
         <p>{home.now.intro}</p>
       </div>
       <ul class="now__signals" role="list">
-        {
-          signals.map((s) => (
-            <li>
-              <SymptomCard icon={s.icon} title={s.signal} compact />
-            </li>
-          ))
-        }
+        {signals.map((s) => <li>{s.signal}</li>)}
       </ul>
       <div class="now__actions">
         <EmergencyButton showAlt />
@@ -68,21 +60,15 @@ const heroZones = [
     <ul class="sections__grid" role="list">
       <li class="sections__featured">
         <a class="section-card section-card--featured" href={featured.href}>
-          <span class="section-card__icon"><Icon name={featured.icon} /></span>
           <span class="section-card__title">{featured.title}</span>
           <span class="section-card__text">{featured.text}</span>
-          <span class="section-card__cta" aria-hidden="true">
-            {home.sections.featuredCta} <Icon name="arrow-right" />
-          </span>
+          <span class="section-card__cta" aria-hidden="true">{home.sections.featuredCta}</span>
         </a>
       </li>
       {
         sections.map((item) => (
           <li>
             <a class="section-card" href={item.href}>
-              <span class="section-card__icon">
-                <Icon name={item.icon} />
-              </span>
               <span class="section-card__title">{item.title}</span>
               <span class="section-card__text">{item.text}</span>
             </a>
@@ -118,9 +104,9 @@ const heroZones = [
 
   .hero__title {
     font-size: var(--fs-display);
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    max-width: 14ch;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    max-width: 13ch;
   }
 
   .hero__lede {
@@ -158,7 +144,7 @@ const heroZones = [
   .now__panel {
     display: grid;
     gap: var(--space-3);
-    padding: var(--space-3) var(--space-2);
+    padding: var(--space-4) var(--space-3);
     background: var(--color-surface);
     border: 2px solid var(--color-text);
     border-radius: var(--radius-card);
@@ -172,16 +158,42 @@ const heroZones = [
     margin-top: var(--space-1);
   }
 
+  .now__head h2 {
+    font-size: var(--fs-h1);
+  }
+
   .now__head p {
     max-width: var(--measure);
   }
 
+  /* Señales: lista sencilla con el marcador de la marca (punto con halo). */
   .now__signals {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--space-1);
     padding: 0;
     list-style: none;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .now__signals li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 3.5rem;
+    padding-block: var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .now__signals li::before {
+    content: '';
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 0 0 6px var(--color-primary-soft);
+    margin-inline: 6px 4px;
   }
 
   .now__more {
@@ -201,15 +213,15 @@ const heroZones = [
     }
 
     .now__signals {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-2);
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-4);
     }
   }
 
   @media (min-width: 960px) {
     .now__panel {
-      grid-template-columns: 1fr 1.6fr;
-      column-gap: var(--space-6);
+      grid-template-columns: 1fr 1.4fr;
+      column-gap: var(--space-8);
       align-items: start;
     }
 
@@ -221,19 +233,22 @@ const heroZones = [
     .now__signals {
       grid-column: 2;
       grid-row: 1 / span 3;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
     }
   }
 
-  /* Accesos a las secciones */
+  /* Accesos a las secciones: el test destacado y el resto como lista editorial. */
   .sections {
     padding-top: var(--space-10);
   }
 
+  .sections > h2 {
+    font-size: var(--fs-h1);
+  }
+
   .sections__grid {
     display: grid;
-    gap: var(--space-2);
-    margin-top: var(--space-3);
+    margin-top: var(--space-4);
     padding: 0;
     list-style: none;
   }
@@ -243,48 +258,41 @@ const heroZones = [
     flex-direction: column;
     gap: var(--space-1);
     height: 100%;
-    padding: var(--space-3);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--color-border);
     color: var(--color-text);
     text-decoration: none;
   }
 
   .section-card:hover {
-    border-color: var(--color-primary);
     color: var(--color-text);
   }
 
   .section-card:hover .section-card__title {
     text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.2em;
-  }
-
-  .section-card__icon {
-    color: var(--color-primary);
-    margin-bottom: var(--space-1);
-  }
-
-  .section-card__icon :global(.icon) {
-    width: 32px;
-    height: 32px;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
   }
 
   .section-card__title {
-    font-size: var(--fs-h3);
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 500;
     line-height: var(--lh-tight);
+    color: var(--color-primary-strong);
   }
 
   .section-card__text {
     color: var(--color-text-muted);
+    max-width: 30rem;
   }
 
   .section-card--featured {
+    margin-bottom: var(--space-3);
+    padding: var(--space-4) var(--space-3);
+    border: 0;
+    border-radius: var(--radius-card);
     background: var(--color-primary);
-    border-color: var(--color-primary);
     color: var(--color-on-primary);
   }
 
@@ -293,27 +301,37 @@ const heroZones = [
     color: var(--color-on-primary);
   }
 
-  .section-card--featured .section-card__icon,
-  .section-card--featured .section-card__text {
+  .section-card--featured .section-card__title {
+    font-size: var(--fs-h1);
     color: var(--color-on-primary);
   }
 
-  .section-card--featured .section-card__title {
-    font-size: var(--fs-h2);
+  .section-card--featured .section-card__text {
+    color: var(--color-on-primary);
+    font-size: 1.1875rem;
   }
 
   .section-card__cta {
+    align-self: flex-start;
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
+    min-height: var(--tap);
     margin-top: auto;
-    padding-top: var(--space-3);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-primary-strong);
     font-weight: 700;
+  }
+
+  .section-card--featured .section-card__text + .section-card__cta {
+    margin-top: var(--space-3);
   }
 
   @media (min-width: 640px) {
     .sections__grid {
       grid-template-columns: repeat(2, 1fr);
+      column-gap: var(--space-5);
     }
 
     .sections__featured {
@@ -323,15 +341,18 @@ const heroZones = [
 
   @media (min-width: 960px) {
     .sections__grid {
-      grid-template-columns: 1.2fr 1fr 1fr;
+      grid-template-columns: 1.15fr 1fr 1fr;
+      column-gap: var(--space-5);
     }
 
     .sections__featured {
       grid-column: 1;
       grid-row: 1 / span 2;
+      padding-right: var(--space-2);
     }
 
     .section-card--featured {
+      margin-bottom: 0;
       padding: var(--space-5);
     }
   }
@@ -341,7 +362,7 @@ const heroZones = [
     margin-top: var(--space-12);
     /* La banda llega hasta el pie, sin el hueco que este deja normalmente. */
     margin-bottom: calc(-1 * var(--space-12));
-    padding-block: var(--space-8);
+    padding-block: var(--space-10);
     background: var(--color-primary-soft);
   }
 
@@ -350,10 +371,11 @@ const heroZones = [
   }
 
   .message__quote p {
-    font-size: clamp(2rem, 6vw, 4.25rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 6.5vw, 4.75rem);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
     color: var(--color-primary-strong);
     max-width: 16ch;
   }

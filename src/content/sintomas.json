@@ -11,7 +11,6 @@
   "symptoms": [
     {
       "id": "pecho",
-      "icon": "heart",
       "title": "Presión o malestar en el pecho",
       "signal": "Presión o malestar en el pecho",
       "home": true,
@@ -24,7 +23,6 @@
     },
     {
       "id": "irradiado",
-      "icon": "zap",
       "title": "Dolor en espalda, cuello, mandíbula o brazos",
       "signal": "Dolor en espalda, cuello, mandíbula o brazos",
       "home": true,
@@ -37,7 +35,6 @@
     },
     {
       "id": "aire",
-      "icon": "wind",
       "title": "Falta de aire",
       "signal": "Falta de aire",
       "home": true,
@@ -50,7 +47,6 @@
     },
     {
       "id": "estomago",
-      "icon": "waves",
       "title": "Náuseas o malestar de estómago",
       "signal": "Náuseas o malestar de estómago",
       "home": true,
@@ -63,7 +59,6 @@
     },
     {
       "id": "sudor",
-      "icon": "droplets",
       "title": "Sudor frío",
       "signal": "Sudor frío o mareo",
       "home": true,
@@ -76,7 +71,6 @@
     },
     {
       "id": "cansancio",
-      "icon": "battery-low",
       "title": "Cansancio intenso y repentino",
       "signal": "Cansancio intenso y repentino",
       "home": true,
@@ -89,7 +83,6 @@
     },
     {
       "id": "mareo",
-      "icon": "orbit",
       "title": "Mareo o sensación de desmayo",
       "signal": "Mareo",
       "home": false,

@@ -1,44 +1,27 @@
 ---
-import Icon from './Icon.astro';
+/**
+ * Tarjeta de síntoma: foto + título + una frase. Sin iconos decorativos:
+ * la foto y la jerarquía tipográfica hacen ese trabajo (como en las webs sanitarias de referencia).
+ */
 import Photo from './Photo.astro';
 
 interface Props {
-  icon: string;
   title: string;
   text?: string;
-  /** Versión compacta (portada): icono y título en una fila. */
-  compact?: boolean;
-  /** Elemento del título; en listas compactas no es un encabezado. */
-  as?: 'h3' | 'p';
   /** Si se pasa, toda la tarjeta es un enlace. */
   href?: string;
   /** Foto opcional (nombre de archivo en src/assets/fotos/). */
   photo?: { name: string; alt: string };
-  /** Tarjeta destacada: en escritorio, foto a la izquierda y texto a la derecha. */
+  /** Tarjeta destacada: desde 640 px, foto a la izquierda y texto a la derecha. */
   featured?: boolean;
 }
 
-const {
-  icon,
-  title,
-  text,
-  compact = false,
-  as: Title = compact ? 'p' : 'h3',
-  href,
-  photo,
-  featured = false,
-} = Astro.props;
+const { title, text, href, photo, featured = false } = Astro.props;
 const Wrapper = href ? 'a' : 'article';
 ---
 
 <Wrapper
-  class:list={[
-    'symptom',
-    compact && 'symptom--compact',
-    href && 'symptom--link',
-    photo && 'symptom--photo',
-    featured && 'symptom--featured',
-  ]}
+  class:list={['symptom', href && 'symptom--link', photo && 'symptom--photo', featured && 'symptom--featured']}
   href={href}
 >
   {
@@ -53,9 +36,8 @@ const Wrapper = href ? 'a' : 'article';
       />
     )
   }
-  <span class="symptom__icon"><Icon name={icon} /></span>
   <div class="symptom__body">
-    <Title class="symptom__title">{title}</Title>
+    <h3 class="symptom__title">{title}</h3>
     {text && <p class="symptom__text">{text}</p>}
   </div>
 </Wrapper>
@@ -63,9 +45,8 @@ const Wrapper = href ? 'a' : 'article';
 <style>
   .symptom {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     gap: var(--space-2);
-    align-items: start;
     align-content: start;
     height: 100%;
     padding: var(--space-3);
@@ -84,24 +65,13 @@ const Wrapper = href ? 'a' : 'article';
 
   .symptom--link:hover .symptom__title {
     text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.2em;
-  }
-
-  .symptom__icon {
-    display: grid;
-    place-items: center;
-    width: var(--tap);
-    height: var(--tap);
-    border-radius: 50%;
-    background: var(--color-primary-soft);
-    color: var(--color-primary);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
   }
 
   .symptom__title {
-    font-size: var(--fs-h3);
-    font-weight: 700;
-    line-height: var(--lh-tight);
+    font-size: 1.375rem;
+    line-height: 1.15;
   }
 
   .symptom__text {
@@ -109,27 +79,10 @@ const Wrapper = href ? 'a' : 'article';
     color: var(--color-text-muted);
   }
 
-  /* Compacta (portada) */
-  .symptom--compact {
-    align-items: center;
-    align-content: center;
-    gap: var(--space-2);
-    padding: var(--space-2);
-  }
-
-  .symptom--compact .symptom__icon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .symptom--compact .symptom__title {
-    font-size: var(--fs-small);
-    line-height: 1.35;
-  }
-
-  /* Con foto. Móvil: miniatura cuadrada a la izquierda, sin icono. */
+  /* Con foto. Móvil: miniatura cuadrada a la izquierda. */
   .symptom--photo {
     grid-template-columns: 88px 1fr;
+    align-items: start;
     padding: var(--space-2);
   }
 
@@ -138,34 +91,18 @@ const Wrapper = href ? 'a' : 'article';
     border-radius: 8px;
   }
 
-  .symptom--photo .symptom__icon {
-    display: none;
-  }
-
-  /* ≥ 640 px: foto arriba a sangre, icono y texto debajo. */
+  /* ≥ 640 px: foto arriba a sangre, texto debajo. */
   @media (min-width: 640px) {
     .symptom--photo {
-      grid-template-columns: auto 1fr;
-      padding: 0 var(--space-3) var(--space-3);
+      grid-template-columns: 1fr;
+      padding: 0 var(--space-3) var(--space-4);
     }
 
     .symptom--photo :global(.symptom__photo) {
-      grid-column: 1 / -1;
       margin-inline: calc(-1 * var(--space-3));
       margin-bottom: var(--space-1);
       aspect-ratio: 4 / 3;
       border-radius: 0;
-    }
-
-    .symptom--photo .symptom__icon {
-      display: grid;
-    }
-  }
-
-  /* ≥ 1100 px: icono sobre el título. */
-  @media (min-width: 1100px) {
-    .symptom--photo:not(.symptom--featured) {
-      grid-template-columns: 1fr;
     }
   }
 
@@ -173,14 +110,12 @@ const Wrapper = href ? 'a' : 'article';
   @media (min-width: 640px) {
     .symptom--featured {
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto 1fr;
       column-gap: var(--space-5);
+      align-items: center;
       padding: 0;
     }
 
     .symptom--featured :global(.symptom__photo) {
-      grid-column: 1;
-      grid-row: 1 / span 2;
       margin: 0;
       width: 100%;
       height: 100%;
@@ -188,19 +123,13 @@ const Wrapper = href ? 'a' : 'article';
       aspect-ratio: auto;
     }
 
-    .symptom--featured .symptom__icon {
-      grid-column: 2;
-      margin-top: var(--space-5);
-    }
-
     .symptom--featured .symptom__body {
-      grid-column: 2;
-      padding-right: var(--space-5);
-      padding-bottom: var(--space-5);
+      padding: var(--space-5) var(--space-5) var(--space-5) 0;
     }
 
     .symptom--featured .symptom__title {
-      font-size: var(--fs-h2);
+      font-size: var(--fs-h1);
+      font-weight: 500;
     }
 
     .symptom--featured .symptom__text {

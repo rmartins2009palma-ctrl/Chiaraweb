@@ -22,32 +22,27 @@
     "items": [
       {
         "href": "/test",
-        "icon": "clipboard-list",
         "title": "Test de riesgo",
         "text": "Diez preguntas, dos minutos. Te orienta sobre tu riesgo cardiovascular. No guarda ningún dato.",
         "featured": true
       },
       {
         "href": "/sintomas",
-        "icon": "scan-heart",
         "title": "Síntomas en la mujer",
         "text": "Cómo se nota cada uno y por qué se confunde con ansiedad."
       },
       {
         "href": "/diferencias",
-        "icon": "person-standing",
         "title": "Mujer y hombre",
         "text": "Dónde aparece el dolor en cada caso."
       },
       {
         "href": "/que-hacer",
-        "icon": "list-checks",
         "title": "Qué hacer",
         "text": "Los pasos que debes seguir mientras llega la ayuda."
       },
       {
         "href": "/testimonios",
-        "icon": "messages-square",
         "title": "Testimonios",
         "text": "Mujeres que reconocieron las señales."
       }

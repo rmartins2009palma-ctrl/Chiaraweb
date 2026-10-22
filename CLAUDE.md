@@ -54,10 +54,10 @@ Dos temas para que la clienta elija, conmutables con un selector flotante visibl
 | `--color-emergency` | `#C62828` | `#C62828` |
 
 - El rojo `--color-emergency` se usa **solo** en el botón de emergencias y en la pantalla «Qué hacer». En ningún otro sitio.
-- Tipografía: **Atkinson Hyperlegible** (Google Fonts), 400 y 700. Cuerpo 18 px, interlineado 1.6. Títulos 28 / 22 / 19 px en móvil.
+- Tipografía (cambiada el 22/10/2026 a petición del usuario, tras analizar webs sanitarias reales: Maven Clinic, One Medical, Parsley, NHS): **Newsreader** para titulares (serif editorial) y **Hanken Grotesk** para texto e interfaz, ambas servidas desde la propia web (@fontsource-variable). Cuerpo 18 px, peso 450, interlineado 1.6. Títulos 28 / 22 / 19 px en móvil.
 - Espaciado en múltiplos de 8 px. Radios de 12 px en tarjetas, 999 px en botones.
-- Iconos: Lucide (SVG en línea).
-- Ilustraciones: formas simples en SVG propias (sin bancos de imágenes en el prototipo).
+- Iconos: Lucide (SVG en línea), **solo funcionales** (teléfono, menú, cerrar, desplegar, atrás). Nada de iconos decorativos en círculos de color: las secciones se apoyan en fotos y tipografía.
+- Ilustraciones: formas simples en SVG propias. Fotos generadas con IA (sin bancos de imágenes) en src/assets/fotos/, con aviso «generadas con IA»; prompts en docs/prompts-fotos.md.
 
 ### Accesibilidad (obligatorio)
 

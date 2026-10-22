@@ -4,18 +4,9 @@
     "title": "¿Cómo está tu corazón?",
     "text": "Este test te ayuda a pensar en los factores que influyen en tu riesgo cardiovascular: la probabilidad de tener un problema del corazón en el futuro.",
     "facts": [
-      {
-        "icon": "list-checks",
-        "text": "10 preguntas sencillas"
-      },
-      {
-        "icon": "clock",
-        "text": "Unos 2 minutos"
-      },
-      {
-        "icon": "shield-check",
-        "text": "No se guarda ni se envía ningún dato. Todo se queda en tu dispositivo y se borra al salir."
-      }
+      "10 preguntas sencillas",
+      "Unos 2 minutos",
+      "No se guarda ni se envía ningún dato. Todo se queda en tu dispositivo y se borra al salir."
     ],
     "warningTitle": "Lógica de puntuación provisional",
     "warning": "En este prototipo la puntuación es ficticia, solo para mostrar cómo funcionará el test. El resultado no es un diagnóstico ni una estimación real de tu riesgo.",

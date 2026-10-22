@@ -4,7 +4,6 @@ import Accordion from '../components/Accordion.astro';
 import AccordionItem from '../components/AccordionItem.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 import Draft from '../components/Draft.astro';
-import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
 import PageHead from '../components/PageHead.astro';
 import SymptomCard from '../components/SymptomCard.astro';
@@ -29,7 +28,6 @@ const showAiNote = hasAnyPhoto(data.symptoms.map((s) => s.photo));
         data.symptoms.map((s, i) => (
           <li>
             <SymptomCard
-              icon={s.icon}
               title={s.title}
               text={s.short}
               href={`#sintoma-${s.id}`}
@@ -50,7 +48,7 @@ const showAiNote = hasAnyPhoto(data.symptoms.map((s) => s.photo));
       <Accordion>
         {
           data.symptoms.map((s) => (
-            <AccordionItem id={`sintoma-${s.id}`} title={s.title} icon={s.icon}>
+            <AccordionItem id={`sintoma-${s.id}`} title={s.title}>
               <div class="symptom-detail">
                 <h4>{data.labels.how}</h4>
                 <p>{s.how}</p>
@@ -73,7 +71,6 @@ const showAiNote = hasAnyPhoto(data.symptoms.map((s) => s.photo));
           sizes="(min-width: 960px) 30vw, 100vw"
           class="unexpected__photo"
         />
-        <span class="unexpected__icon"><Icon name="lightbulb" /></span>
         <h2 id="unexpected-title">{data.unexpected.title}</h2>
         <p>{data.unexpected.intro}</p>
         <ul>
@@ -178,16 +175,6 @@ const showAiNote = hasAnyPhoto(data.symptoms.map((s) => s.photo));
 
   .unexpected__panel > :global(.unexpected__photo) {
     margin-bottom: var(--space-3);
-  }
-
-  .unexpected__icon {
-    display: inline-flex;
-    color: var(--color-primary);
-  }
-
-  .unexpected__icon :global(.icon) {
-    width: 32px;
-    height: 32px;
   }
 
   .unexpected ul {

@@ -21,6 +21,7 @@ if (typeof source !== 'string') throw new Error(`Icono Lucide desconocido: "${na
 const svg = source
   .replace(/<!--.*?-->/s, '')
   .replace(/\s(width|height)="24"/g, '')
+  .replace('stroke-width="2"', 'stroke-width="1.75"')
   .replace(/class="[^"]*"/, `class="${className}"`)
   .replace(
     '<svg',

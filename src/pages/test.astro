@@ -42,17 +42,12 @@ const config = {
         <ul class="facts" role="list">
           {
             intro.facts.map((f) => (
-              <li>
-                <span class="facts__icon">
-                  <Icon name={f.icon} />
-                </span>
-                {f.text}
-              </li>
+              <li>{f}</li>
             ))
           }
         </ul>
         <div class="warning">
-          <p class="warning__title"><Icon name="circle-alert" /> {intro.warningTitle}</p>
+          <p class="warning__title">{intro.warningTitle}</p>
           <p>{intro.warning}</p>
         </div>
         <p class="emergency-note">{ui.emergency}</p>
@@ -86,13 +81,10 @@ const config = {
             <ResultCard level={level} position={i} total={levels.length} labels={ui} />
           ))
         }
-        <p class="result-note"><Icon name="info" /> {test.resultNote}</p>
+        <p class="result-note">{test.resultNote}</p>
         <p class="emergency-note">{ui.emergency}</p>
         <div class="result-actions">
-          <button type="button" class="btn" data-restart>
-            <Icon name="rotate-ccw" />
-            {ui.restart}
-          </button>
+          <button type="button" class="btn" data-restart>{ui.restart}</button>
           {test.links.map((l) => <a class="btn btn--quiet" href={l.href}>{l.label}</a>)}
         </div>
       </section>
@@ -283,27 +275,15 @@ const config = {
   }
 
   .facts {
-    display: grid;
-    gap: var(--space-2);
     padding: 0;
     list-style: none;
+    border-top: 1px solid var(--color-border);
   }
 
   .facts li {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .facts__icon {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: var(--tap);
-    height: var(--tap);
-    border-radius: 50%;
-    background: var(--color-primary-soft);
-    color: var(--color-primary);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
   }
 
   .warning {
@@ -391,11 +371,6 @@ const config = {
     background: var(--color-primary-soft);
     border-radius: var(--radius-card);
     font-size: var(--fs-small);
-  }
-
-  .result-note :global(.icon) {
-    margin-top: 0.15em;
-    color: var(--color-primary);
   }
 
   .result-actions {

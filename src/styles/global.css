@@ -27,6 +27,8 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
+  /* Algo más de peso que el 400 por defecto: mejor lectura para personas mayores o con baja visión. */
+  font-weight: 450;
   line-height: var(--lh-body);
   overflow-x: hidden;
   /* En móvil el botón 061 va fijo abajo: reservamos su altura para no tapar contenido. */
@@ -60,13 +62,29 @@ h3,
 h4 {
   margin: 0;
   line-height: var(--lh-tight);
-  font-weight: 700;
   text-wrap: balance;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+h3 {
+  font-weight: 600;
+}
+
+h4 {
+  font-weight: 700;
 }
 
 h1 {
   font-size: var(--fs-h1);
-  letter-spacing: -0.01em;
+  line-height: 1.1;
 }
 h2 {
   font-size: var(--fs-h2);
