@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Accordion from '../components/Accordion.astro';
 import AccordionItem from '../components/AccordionItem.astro';
@@ -85,7 +86,7 @@ const showAiNote = hasAnyPhoto(data.symptoms.map((s) => s.photo));
 
   <section class="container closing">
     <p class="closing__text">
-      {data.cta.text} <a href={data.cta.link.href}>{data.cta.link.label}</a>
+      {data.cta.text} <a href={url(data.cta.link.href)}>{data.cta.link.label}</a>
     </p>
     <Disclaimer />
   </section>

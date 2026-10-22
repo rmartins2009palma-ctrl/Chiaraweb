@@ -1,10 +1,11 @@
 ---
+import { currentPath, url } from '../lib/url';
 import site from '../content/site.json';
 import BrandMark from './BrandMark.astro';
 import EmergencyButton from './EmergencyButton.astro';
 import Icon from './Icon.astro';
 
-const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const current = currentPath(Astro.url.pathname);
 const isCurrent = (href: string) => current === href;
 ---
 
@@ -13,7 +14,7 @@ const isCurrent = (href: string) => current === href;
     {/* Primer elemento enfocable tras «Saltar al contenido». En móvil se fija abajo. */}
     <EmergencyButton variant="dock" class="site-header__emergency" />
 
-    <a class="brand" href="/" aria-label={`${site.siteName}. ${site.ui.homeLabel}`}>
+    <a class="brand" href={url('/')} aria-label={`${site.siteName}. ${site.ui.homeLabel}`}>
       <BrandMark />
       <span class="brand__text">
         <span class="brand__name">{site.siteName}</span>
@@ -39,7 +40,7 @@ const isCurrent = (href: string) => current === href;
         {
           site.nav.map((item) => (
             <li>
-              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              <a href={url(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
                 {item.label}
               </a>
             </li>

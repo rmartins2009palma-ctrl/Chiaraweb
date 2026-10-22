@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import site from '../content/site.json';
 import BrandMark from './BrandMark.astro';
 import Disclaimer from './Disclaimer.astro';
@@ -19,14 +20,14 @@ import Draft from './Draft.astro';
     <nav aria-labelledby="footer-sections">
       <h2 id="footer-sections" class="site-footer__title">{site.footer.sectionsTitle}</h2>
       <ul>
-        {site.nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {site.nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
 
     <nav aria-labelledby="footer-legal">
       <h2 id="footer-legal" class="site-footer__title">{site.footer.legalTitle}</h2>
       <ul>
-        {site.legal.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {site.legal.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
   </div>
