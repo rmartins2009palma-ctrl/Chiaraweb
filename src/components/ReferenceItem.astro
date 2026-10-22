@@ -1,0 +1,43 @@
+---
+/** Una referencia bibliográfica (formato Vancouver) con su tipo como etiqueta de texto. */
+interface Props {
+  number: number;
+  citation: string;
+  type: string;
+  typeLabel: string;
+}
+
+const { number, citation, type, typeLabel } = Astro.props;
+---
+
+<li class="ref-item" data-type={type} value={number}>
+  <span class="ref-item__type">{typeLabel}</span>
+  <p class="ref-item__citation">{citation}</p>
+</li>
+
+<style>
+  .ref-item {
+    padding: var(--space-3) 0 var(--space-3) var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .ref-item::marker {
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .ref-item__type {
+    display: inline-block;
+    padding: 0 var(--space-1);
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-soft);
+    color: var(--color-primary-strong);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .ref-item__citation {
+    margin-top: var(--space-1);
+    overflow-wrap: anywhere;
+  }
+</style>

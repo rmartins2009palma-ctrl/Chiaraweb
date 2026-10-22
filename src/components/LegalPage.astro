@@ -1,0 +1,50 @@
+---
+/** Páginas de pie (quiénes somos, aviso legal, privacidad): secciones de texto desde src/content/legal.json. */
+import Base from '../layouts/Base.astro';
+import Draft from './Draft.astro';
+import PageHead from './PageHead.astro';
+import legal from '../content/legal.json';
+import pages from '../content/pages.json';
+
+interface Props {
+  page: 'quienes-somos' | 'aviso-legal' | 'privacidad';
+}
+
+const { page: key } = Astro.props;
+const page = pages[key];
+const { sections } = legal[key];
+---
+
+<Base title={page.title} description={page.lede}>
+  <PageHead title={page.title} lede={page.lede}>
+    <Draft />
+  </PageHead>
+  <div class="container">
+    <div class="legal">
+      {
+        sections.map((s) => (
+          <section>
+            <h2>{s.title}</h2>
+            {s.paragraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</Base>
+
+<style>
+  .legal {
+    max-width: var(--measure);
+  }
+
+  .legal section + section {
+    margin-top: var(--space-5);
+  }
+
+  .legal p {
+    margin-top: var(--space-2);
+  }
+</style>

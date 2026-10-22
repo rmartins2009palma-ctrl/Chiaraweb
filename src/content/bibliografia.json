@@ -1,0 +1,49 @@
+{
+  "_nota": "PROVISIONAL. Referencias DE RELLENO en formato Vancouver, claramente ficticias. Sustituir por la bibliografía real de la clienta.",
+  "intro": "Las referencias siguen el formato Vancouver. Puedes filtrarlas por tipo.",
+  "filterLabel": "Filtrar por tipo",
+  "all": "Todas",
+  "count": "Mostrando {n} de {total} referencias",
+  "linkLabel": "Ver fuente",
+  "types": [
+    {
+      "id": "guias",
+      "label": "Guías clínicas"
+    },
+    {
+      "id": "articulos",
+      "label": "Artículos"
+    },
+    {
+      "id": "pacientes",
+      "label": "Para pacientes"
+    }
+  ],
+  "items": [
+    {
+      "type": "guias",
+      "citation": "Apellido A, Apellido B, Apellido C. Título de la guía clínica de ejemplo sobre síndrome coronario agudo. Sociedad de ejemplo; Año. [Ref. pendiente]"
+    },
+    {
+      "type": "guias",
+      "citation": "Organismo de ejemplo. Título de la guía de práctica clínica sobre prevención cardiovascular. Ciudad: Editorial de ejemplo; Año. [Ref. pendiente]"
+    },
+    {
+      "type": "articulos",
+      "citation": "Apellido A, Apellido B. Título del artículo de ejemplo sobre síntomas del infarto en la mujer. Revista de Ejemplo. Año;Vol(Núm):págs. [Ref. pendiente]"
+    },
+    {
+      "type": "articulos",
+      "citation": "Apellido A, Apellido B, Apellido C, et al. Título del artículo de ejemplo sobre retraso en la atención. Revista de Ejemplo. Año;Vol(Núm):págs. [Ref. pendiente]"
+    },
+    {
+      "type": "pacientes",
+      "citation": "Fundación de ejemplo. Título del material divulgativo de ejemplo para pacientes [Internet]. Ciudad: Fundación de ejemplo; Año [citado Fecha]. Disponible en: [URL pendiente]"
+    },
+    {
+      "type": "pacientes",
+      "citation": "Asociación de ejemplo. Título del folleto de ejemplo sobre factores de riesgo [Internet]. Ciudad: Asociación de ejemplo; Año [citado Fecha]. Disponible en: [URL pendiente]"
+    }
+  ],
+  "draftNote": "Referencias de relleno"
+}

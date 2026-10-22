@@ -1,0 +1,144 @@
+---
+/**
+ * Testimonio: foto (sin caras), nombre o seudónimo, edad, síntomas, extracto y «Leer más».
+ * El relato completo se despliega en la propia tarjeta (botón con aria-expanded).
+ */
+import Draft from './Draft.astro';
+import Photo from './Photo.astro';
+
+interface Props {
+  id: string;
+  name: string;
+  age: number;
+  symptoms: string[];
+  excerpt: string;
+  story: string;
+  photo: string;
+  photoAlt: string;
+  labels: { symptoms: string; readMore: string; readLess: string; example: string; years: string };
+}
+
+const { id, name, age, symptoms, excerpt, story, photo, photoAlt, labels } = Astro.props;
+const storyId = `relato-${id}`;
+---
+
+<article class="testimonial" aria-labelledby={`${storyId}-name`}>
+  <Photo
+    name={photo}
+    alt={photoAlt}
+    ratio="1/1"
+    sizes="(min-width: 960px) 160px, 112px"
+    aiCredit={false}
+    decorative
+    class="testimonial__photo"
+  />
+  <div class="testimonial__body">
+    <Draft note={labels.example} />
+    <h3 id={`${storyId}-name`} class="testimonial__name">
+      {name}<span class="testimonial__age">, {age} {labels.years}</span>
+    </h3>
+    <ul class="testimonial__tags" role="list" aria-label={labels.symptoms}>
+      {symptoms.map((s) => <li>{s}</li>)}
+    </ul>
+    <blockquote class="testimonial__excerpt">
+      <p>«{excerpt}»</p>
+    </blockquote>
+    <div class="testimonial__story" id={storyId} hidden>
+      <p>{story}</p>
+    </div>
+    <button
+      type="button"
+      class="testimonial__toggle"
+      aria-expanded="false"
+      aria-controls={storyId}
+      data-more={labels.readMore}
+      data-less={labels.readLess}
+      data-story-toggle
+    >
+      {labels.readMore}
+    </button>
+  </div>
+</article>
+
+<style>
+  .testimonial {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: var(--space-3);
+    align-items: start;
+    height: 100%;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  @media (max-width: 479px) {
+    .testimonial {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonial :global(.testimonial__photo) {
+      max-width: 112px;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .testimonial {
+      grid-template-columns: 160px 1fr;
+    }
+  }
+
+  .testimonial__body > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .testimonial__name {
+    font-size: var(--fs-h3);
+  }
+
+  .testimonial__age {
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .testimonial__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+
+  .testimonial__tags li {
+    padding: 2px var(--space-1);
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-soft);
+    color: var(--color-primary-strong);
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  .testimonial__excerpt {
+    margin: var(--space-2) 0 0;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .testimonial__toggle {
+    min-height: var(--tap);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  .testimonial__toggle:hover {
+    color: var(--color-primary-strong);
+    text-decoration-thickness: 2px;
+  }
+</style>

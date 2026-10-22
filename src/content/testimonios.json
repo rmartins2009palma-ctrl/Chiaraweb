@@ -1,0 +1,109 @@
+{
+  "_nota": "PROVISIONAL. Los 4 relatos son INVENTADOS, de ejemplo, para mostrar el diseño. Sustituir por testimonios reales con consentimiento.",
+  "exampleNote": "Relato de ejemplo",
+  "intro": "Cuatro historias de mujeres que notaron algo distinto. Ponerles nombre a las señales ayuda a reconocerlas.",
+  "listTitle": "Sus historias",
+  "symptomsLabel": "Lo que notó",
+  "readMore": "Leer más",
+  "readLess": "Leer menos",
+  "items": [
+    {
+      "id": "carmen",
+      "name": "Carmen",
+      "age": 58,
+      "symptoms": [
+        "Cansancio",
+        "Dolor de espalda",
+        "Náuseas"
+      ],
+      "excerpt": "Llevaba una semana agotada. Pensé que era el trabajo.",
+      "story": "Llevaba una semana agotada. Pensé que era el trabajo y el calor. Una tarde, recogiendo la cocina, noté un dolor entre los omóplatos y ganas de vomitar. Me tumbé un rato esperando que se pasara. Fue mi hija quien insistió en llamar. En el hospital me dijeron que había sido un infarto.",
+      "photo": "testimonio-1",
+      "photoAlt": "Manos de una mujer sujetando una taza junto a una ventana."
+    },
+    {
+      "id": "lucia",
+      "name": "Lucía (seudónimo)",
+      "age": 49,
+      "symptoms": [
+        "Falta de aire",
+        "Presión en el pecho"
+      ],
+      "excerpt": "Me dijeron que era ansiedad. Yo sabía que no era lo de siempre.",
+      "story": "Subiendo las escaleras de casa me faltó el aire como nunca. Sentía una presión rara, no un dolor. Ya me habían dicho otras veces que era ansiedad, así que dudé. Pero esta vez era distinto y llamé al 061. Me alegro de no haberme quedado callada.",
+      "photo": "testimonio-2",
+      "photoAlt": "Mujer paseando sola por un paseo marítimo, de espaldas."
+    },
+    {
+      "id": "pilar",
+      "name": "Pilar",
+      "age": 66,
+      "symptoms": [
+        "Dolor de mandíbula",
+        "Sudor frío"
+      ],
+      "excerpt": "Creí que era una muela. Estaba sudando sin hacer nada.",
+      "story": "Me empezó a doler la mandíbula y pensé que era una muela. Al rato estaba empapada en un sudor frío, sentada en el sofá sin hacer nada. Mi vecina, que es enfermera, me dijo que no esperara. Si hubiera ido al dentista, no sé qué habría pasado.",
+      "photo": "testimonio-3",
+      "photoAlt": "Unas gafas de lectura sobre un cuaderno abierto en una mesa de cocina."
+    },
+    {
+      "id": "rosa",
+      "name": "Rosa",
+      "age": 61,
+      "symptoms": [
+        "Malestar de estómago",
+        "Mareo"
+      ],
+      "excerpt": "Parecía una indigestión. Por la noche fue a peor.",
+      "story": "Después de cenar noté un ardor en la boca del estómago. Me tomé una infusión y me fui a la cama, pero me mareé al levantarme. Mi pareja llamó al 061. Ahora sé que en las mujeres puede empezar así, y se lo cuento a todas mis amigas.",
+      "photo": "testimonio-4",
+      "photoAlt": "Dos mujeres paseando del brazo por un parque, de espaldas."
+    }
+  ],
+  "form": {
+    "title": "Comparte tu experiencia",
+    "intro": "Tu historia puede ayudar a otra mujer a reconocer las señales. Los relatos se revisan antes de publicarse.",
+    "prototypeNote": "En este prototipo el formulario no envía nada.",
+    "fields": {
+      "name": "Nombre o seudónimo",
+      "nameHelp": "Opcional. Puedes usar un nombre inventado.",
+      "age": "Edad",
+      "ageHelp": "Opcional.",
+      "story": "Tu relato",
+      "storyHelp": "Cuéntanos qué notaste y qué hiciste. No incluyas datos que te identifiquen.",
+      "consent": "Acepto que mi relato se revise y, si se aprueba, se publique en esta web sin datos que me identifiquen."
+    },
+    "required": "Obligatorio",
+    "submit": "Enviar mi relato",
+    "errors": {
+      "story": "Escribe tu relato para poder enviarlo.",
+      "consent": "Marca la casilla de consentimiento para poder enviarlo.",
+      "summary": "Revisa los campos marcados."
+    },
+    "success": "Gracias. Tu relato se revisará antes de publicarse."
+  },
+  "rules": {
+    "title": "Normas de la comunidad",
+    "items": [
+      {
+        "title": "Respeto ante todo",
+        "text": "Cada experiencia es única. No se publican mensajes que juzguen, ridiculicen o desprecien a otras personas."
+      },
+      {
+        "title": "Sin consejos médicos",
+        "text": "Comparte lo que te pasó, no lo que otras deberían hacer. Las decisiones sobre la salud se toman con un profesional."
+      },
+      {
+        "title": "Protege tu privacidad",
+        "text": "No incluyas nombres completos, direcciones, centros sanitarios ni datos de otras personas."
+      },
+      {
+        "title": "Revisión antes de publicar",
+        "text": "Todos los relatos se leen antes de publicarse. Podemos acortarlos o no publicarlos si no cumplen estas normas."
+      }
+    ]
+  },
+  "yearsLabel": "años",
+  "photosNote": "Las fotos de esta página se han generado con inteligencia artificial."
+}

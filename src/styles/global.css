@@ -43,6 +43,11 @@ main {
   flex: 1;
 }
 
+/* Que ningún display de un componente anule el atributo hidden. */
+[hidden] {
+  display: none !important;
+}
+
 img,
 svg {
   display: block;

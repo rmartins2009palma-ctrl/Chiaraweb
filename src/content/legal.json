@@ -1,0 +1,94 @@
+{
+  "_nota": "PROVISIONAL. Textos de relleno salvo la descripción técnica de privacidad, que describe cómo funciona realmente el prototipo. Revisar con asesoría legal antes de publicar.",
+  "quienes-somos": {
+    "sections": [
+      {
+        "title": "El proyecto",
+        "paragraphs": [
+          "Esta web forma parte de un Trabajo de Fin de Grado de Enfermería. Su objetivo es que las mujeres reconozcan los síntomas del infarto, que a menudo son distintos a los del hombre, y sepan actuar a tiempo.",
+          "[Texto pendiente: universidad, curso académico y tutoría.]"
+        ]
+      },
+      {
+        "title": "Quién lo hace",
+        "paragraphs": [
+          "[Texto pendiente: nombre de la autora y breve presentación.]"
+        ]
+      },
+      {
+        "title": "Contacto",
+        "paragraphs": [
+          "[Dato pendiente: correo de contacto.]"
+        ]
+      }
+    ]
+  },
+  "aviso-legal": {
+    "sections": [
+      {
+        "title": "Carácter informativo",
+        "paragraphs": [
+          "Los contenidos de esta web son divulgativos y no sustituyen la valoración, el diagnóstico ni el tratamiento de un profesional sanitario. Ante cualquier síntoma, llama al 061 o acude a tu centro de salud."
+        ]
+      },
+      {
+        "title": "Titularidad",
+        "paragraphs": [
+          "[Texto pendiente: titular de la web y datos identificativos.]"
+        ]
+      },
+      {
+        "title": "Propiedad intelectual",
+        "paragraphs": [
+          "[Texto pendiente: condiciones de uso de los contenidos e imágenes.]"
+        ]
+      },
+      {
+        "title": "Responsabilidad",
+        "paragraphs": [
+          "[Texto pendiente: limitación de responsabilidad y enlaces externos.]"
+        ]
+      }
+    ]
+  },
+  "privacidad": {
+    "sections": [
+      {
+        "title": "Resumen",
+        "paragraphs": [
+          "Esta web no recoge, guarda ni envía datos personales. No usa cookies, ni herramientas de analítica, ni publicidad."
+        ]
+      },
+      {
+        "title": "Test de riesgo",
+        "paragraphs": [
+          "Las respuestas del test solo existen en la memoria de tu navegador mientras lo haces. No se guardan ni se envían a ningún servidor, y desaparecen al cerrar o recargar la página."
+        ]
+      },
+      {
+        "title": "Formulario de testimonios",
+        "paragraphs": [
+          "En este prototipo, el formulario «Comparte tu experiencia» no envía nada. [Texto pendiente: tratamiento de los relatos en la versión final.]"
+        ]
+      },
+      {
+        "title": "Selector de tema del prototipo",
+        "paragraphs": [
+          "El botón «Tema», que solo existe en este prototipo, recuerda la paleta elegida mientras la pestaña esté abierta (almacenamiento de sesión del navegador). No contiene datos personales y desaparecerá en la versión final."
+        ]
+      },
+      {
+        "title": "Tipografía",
+        "paragraphs": [
+          "La tipografía se sirve desde esta misma web, así que tu navegador no se conecta a servicios de terceros para mostrarla."
+        ]
+      },
+      {
+        "title": "Responsable y derechos",
+        "paragraphs": [
+          "[Texto pendiente: responsable del tratamiento y cómo ejercer los derechos.]"
+        ]
+      }
+    ]
+  }
+}

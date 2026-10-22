@@ -1,13 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
-import PageHead from '../components/PageHead.astro';
-import Pending from '../components/Pending.astro';
-import pages from '../content/pages.json';
-
-const page = pages['quienes-somos'];
+import LegalPage from '../components/LegalPage.astro';
 ---
 
-<Base title={page.title} description={page.lede}>
-  <PageHead title={page.title} lede={page.lede} />
-  <Pending />
-</Base>
+<LegalPage page="quienes-somos" />

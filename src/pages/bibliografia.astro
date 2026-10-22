@@ -1,13 +1,123 @@
 ---
 import Base from '../layouts/Base.astro';
+import Draft from '../components/Draft.astro';
 import PageHead from '../components/PageHead.astro';
-import Pending from '../components/Pending.astro';
+import ReferenceItem from '../components/ReferenceItem.astro';
+import data from '../content/bibliografia.json';
 import pages from '../content/pages.json';
 
-const page = pages['bibliografia'];
+const page = pages.bibliografia;
+const typeLabel = Object.fromEntries(data.types.map((t) => [t.id, t.label]));
+const total = data.items.length;
 ---
 
 <Base title={page.title} description={page.lede}>
-  <PageHead title={page.title} lede={page.lede} />
-  <Pending />
+  <PageHead title={page.title} lede={page.lede}>
+    <p class="intro">{data.intro}</p>
+    <Draft note={data.draftNote} />
+  </PageHead>
+
+  <section class="container" aria-label={page.title} data-biblio>
+    <div class="filters" role="group" aria-labelledby="filter-label">
+      <p id="filter-label" class="filters__label">{data.filterLabel}</p>
+      <div class="filters__buttons">
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">{data.all}</button>
+        {
+          data.types.map((t) => (
+            <button type="button" class="chip" data-filter={t.id} aria-pressed="false">
+              {t.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="count" data-count data-template={data.count} aria-live="polite">
+      {data.count.replace('{n}', String(total)).replace('{total}', String(total))}
+    </p>
+
+    <ol class="refs">
+      {
+        data.items.map((item, i) => (
+          <ReferenceItem number={i + 1} citation={item.citation} type={item.type} typeLabel={typeLabel[item.type]} />
+        ))
+      }
+    </ol>
+  </section>
 </Base>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-biblio]')!;
+  const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const items = [...root.querySelectorAll<HTMLElement>('[data-type]')];
+  const count = root.querySelector<HTMLElement>('[data-count]')!;
+
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter!;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      let shown = 0;
+      items.forEach((item) => {
+        const visible = filter === 'all' || item.dataset.type === filter;
+        item.hidden = !visible;
+        if (visible) shown++;
+      });
+      count.textContent = count.dataset.template!.replace('{n}', String(shown)).replace('{total}', String(items.length));
+    }),
+  );
+</script>
+
+<style>
+  .intro {
+    max-width: var(--measure);
+  }
+
+  .filters__label {
+    font-weight: 700;
+  }
+
+  .filters__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .chip {
+    min-height: var(--tap);
+    padding: 0 var(--space-2);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .chip:hover {
+    border-color: var(--color-primary);
+  }
+
+  .chip[aria-pressed='true'] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .chip[aria-pressed='true']::before {
+    content: '✓ ';
+  }
+
+  .count {
+    margin-top: var(--space-3);
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+  }
+
+  .refs {
+    max-width: 52rem;
+    margin-top: var(--space-2);
+    padding-left: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+</style>

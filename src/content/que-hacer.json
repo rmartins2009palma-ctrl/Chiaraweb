@@ -1,0 +1,46 @@
+{
+  "_nota": "PROVISIONAL. Pasos generales, pendientes de validación por la clienta. No añadir indicaciones farmacológicas sin fuente validada.",
+  "alert": {
+    "title": "Si crees que puede ser un infarto, llama ya",
+    "text": "No esperes a que se pase ni a estar segura. Es mejor una llamada de más que un minuto de menos."
+  },
+  "stepsTitle": "Mientras llega la ayuda",
+  "steps": [
+    {
+      "title": "Para y siéntate",
+      "text": "Deja lo que estés haciendo. Siéntate o recuéstate en un sitio cómodo, con la espalda apoyada.",
+      "photo": "paso-sentarse",
+      "photoAlt": "Mujer sentándose despacio en un sillón, con la espalda apoyada."
+    },
+    {
+      "title": "No conduzcas",
+      "text": "No vayas al hospital por tu cuenta ni conduciendo. El equipo de emergencias puede empezar a atenderte en cuanto llega.",
+      "photo": "paso-no-conducir",
+      "photoAlt": "Llaves del coche sobre la mesa del recibidor."
+    },
+    {
+      "title": "Llama al 061",
+      "text": "Di que crees que puede ser un infarto y describe lo que notas. Sigue sus indicaciones y no cuelgues hasta que te lo digan.",
+      "photo": "paso-llamar",
+      "photoAlt": "Mujer sentada en el sofá hablando por teléfono."
+    },
+    {
+      "title": "Abre la puerta",
+      "text": "Si estás sola, deja la puerta de casa abierta o sin cerrojo para que puedan entrar.",
+      "photo": "paso-abrir-puerta",
+      "photoAlt": "Puerta de un piso entreabierta, con una mano soltando el pomo."
+    },
+    {
+      "title": "Ten a mano tu medicación",
+      "text": "Prepara las cajas o la lista de los medicamentos que tomas para enseñárselas al equipo sanitario.",
+      "photo": "paso-medicacion",
+      "photoAlt": "Cajas de medicamentos y una lista preparadas en una bolsa transparente."
+    }
+  ],
+  "company": {
+    "title": "Si estás con alguien",
+    "text": "Pide a esa persona que llame al 061 y que se quede a tu lado hasta que llegue la ayuda."
+  },
+  "photosNote": "Las fotos de esta página se han generado con inteligencia artificial.",
+  "stepLabel": "Paso"
+}
