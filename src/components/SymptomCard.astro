@@ -1,0 +1,74 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  icon: string;
+  title: string;
+  text?: string;
+  /** Versión compacta (portada): icono y título en una fila. */
+  compact?: boolean;
+  /** Elemento del título; en listas compactas no es un encabezado. */
+  as?: 'h3' | 'p';
+}
+
+const { icon, title, text, compact = false, as: Title = compact ? 'p' : 'h3' } = Astro.props;
+---
+
+<article class:list={['symptom', compact && 'symptom--compact']}>
+  <span class="symptom__icon"><Icon name={icon} /></span>
+  <div>
+    <Title class="symptom__title">{title}</Title>
+    {text && <p class="symptom__text">{text}</p>}
+  </div>
+</article>
+
+<style>
+  .symptom {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    align-items: start;
+    height: 100%;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .symptom__icon {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+
+  .symptom__title {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+  }
+
+  .symptom__text {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+  }
+
+  .symptom--compact {
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  .symptom--compact .symptom__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .symptom--compact .symptom__title {
+    font-size: var(--fs-small);
+    line-height: 1.35;
+  }
+</style>

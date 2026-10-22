@@ -1,0 +1,136 @@
+---
+/**
+ * Silueta humana neutra (busto, vista frontal) con zonas de dolor marcadas.
+ * Es decorativa: el significado de las zonas siempre se da también en texto.
+ * Zonas con `back: true` están en la espalda: se dibujan con borde discontinuo.
+ */
+export interface Zone {
+  x: number;
+  y: number;
+  /** Número que identifica la zona en la leyenda. */
+  n?: number;
+  back?: boolean;
+  /** Zona secundaria o leve: halo más pequeño. */
+  minor?: boolean;
+}
+
+interface Props {
+  zones: Zone[];
+  class?: string;
+  /** Hace un único pulso de las zonas al cargar (se desactiva con prefers-reduced-motion). */
+  animate?: boolean;
+}
+
+const { zones, class: className, animate = false } = Astro.props;
+---
+
+<svg
+  class:list={['silhouette', animate && 'silhouette--animate', className]}
+  viewBox="0 0 240 304"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g class="silhouette__body">
+    <ellipse cx="120" cy="60" rx="33" ry="40"></ellipse>
+    <path
+      d="M101 92 C101 108 95 114 80 117 C58 121 41 132 37 158 L27 286 Q39.5 296 52 286 L62 182 L68 304 L172 304 L178 182 L188 286 Q200.5 296 213 286 L203 158 C199 132 182 121 160 117 C145 114 139 108 139 92 Z"
+    ></path>
+  </g>
+  {
+    zones.map((z, i) => (
+      <g class:list={['zone', z.back && 'zone--back', z.minor && 'zone--minor']} style={`--i:${i}`}>
+        <circle class="zone__halo" cx={z.x} cy={z.y} r={z.minor ? 16 : 24} />
+        <circle class="zone__pulse" cx={z.x} cy={z.y} r={z.minor ? 16 : 24} />
+        {z.n !== undefined ? (
+          <>
+            <circle class="zone__dot" cx={z.x} cy={z.y} r="11" />
+            <text class="zone__num" x={z.x} y={z.y} dy="0.36em" text-anchor="middle">
+              {z.n}
+            </text>
+          </>
+        ) : (
+          <circle class="zone__dot" cx={z.x} cy={z.y} r="5" />
+        )}
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .silhouette {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .silhouette__body {
+    fill: var(--color-surface);
+    stroke: var(--color-text-muted);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .zone__halo {
+    fill: var(--color-zone);
+  }
+
+  .zone--back .zone__halo {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 2;
+    stroke-dasharray: 5 4;
+  }
+
+  .zone__pulse {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 1.5;
+    opacity: 0;
+  }
+
+  .zone__dot {
+    fill: var(--color-primary);
+  }
+
+  .zone__num {
+    fill: var(--color-on-primary);
+    font: 700 13px var(--font-sans);
+  }
+
+  /* Un único momento de movimiento: las zonas «laten» una vez, una tras otra. */
+  @media (prefers-reduced-motion: no-preference) {
+    .silhouette--animate .zone__pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: zone-pulse 1.6s ease-out calc(0.5s + var(--i) * 0.25s) 2 both;
+    }
+
+    .silhouette--animate .zone__halo {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: zone-in 0.5s ease-out calc(0.3s + var(--i) * 0.25s) both;
+    }
+  }
+
+  @keyframes zone-pulse {
+    0% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.9);
+    }
+  }
+
+  @keyframes zone-in {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

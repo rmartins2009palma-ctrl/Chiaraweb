@@ -1,35 +1,12 @@
 ---
 /**
- * Icono Lucide en línea. Solo se incluyen los iconos que se usan, para no inflar el HTML.
+ * Icono Lucide en línea, por su nombre en kebab-case (p. ej. "battery-low").
+ * Se resuelve al compilar: en el HTML solo acaba el SVG de cada icono usado.
  */
-import {
-  ArrowRight,
-  ChevronDown,
-  ExternalLink,
-  HeartPulse,
-  Info,
-  Menu,
-  Palette,
-  Phone,
-  X,
-} from 'lucide-static';
-
-const icons = {
-  'arrow-right': ArrowRight,
-  'chevron-down': ChevronDown,
-  'external-link': ExternalLink,
-  'heart-pulse': HeartPulse,
-  info: Info,
-  menu: Menu,
-  palette: Palette,
-  phone: Phone,
-  x: X,
-} as const;
-
-export type IconName = keyof typeof icons;
+import * as lucide from 'lucide-static';
 
 interface Props {
-  name: IconName;
+  name: string;
   class?: string;
   /** Si se pasa, el icono deja de ser decorativo y se anuncia con este texto. */
   label?: string;
@@ -37,7 +14,11 @@ interface Props {
 
 const { name, class: className = 'icon', label } = Astro.props;
 
-const svg = icons[name]
+const key = name.replace(/(^|-)([a-z0-9])/g, (_, __, c: string) => c.toUpperCase());
+const source = (lucide as Record<string, unknown>)[key];
+if (typeof source !== 'string') throw new Error(`Icono Lucide desconocido: "${name}"`);
+
+const svg = source
   .replace(/<!--.*?-->/s, '')
   .replace(/\s(width|height)="24"/g, '')
   .replace(/class="[^"]*"/, `class="${className}"`)

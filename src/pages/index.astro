@@ -1,13 +1,366 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageHead from '../components/PageHead.astro';
-import Pending from '../components/Pending.astro';
-import pages from '../content/pages.json';
+import BodySilhouette from '../components/BodySilhouette.astro';
+import Draft from '../components/Draft.astro';
+import EmergencyButton from '../components/EmergencyButton.astro';
+import Icon from '../components/Icon.astro';
+import SymptomCard from '../components/SymptomCard.astro';
+import home from '../content/home.json';
+import sintomas from '../content/sintomas.json';
 
-const page = pages.home;
+const signals = sintomas.symptoms.filter((s) => s.home);
+const [featured, ...sections] = home.sections.items;
+
+// Zonas de la ilustración: mandíbula, espalda (detrás), brazos, estómago y, leve, el pecho.
+const heroZones = [
+  { x: 120, y: 100 },
+  { x: 150, y: 145, back: true },
+  { x: 44, y: 205 },
+  { x: 196, y: 205 },
+  { x: 120, y: 252 },
+  { x: 112, y: 168, minor: true },
+];
 ---
 
 <Base>
-  <PageHead title={page.title} lede={page.lede} />
-  <Pending />
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero__text">
+      <Draft />
+      <h1 id="hero-title" class="hero__title">{home.hero.title}</h1>
+      <p class="hero__lede">{home.hero.lede}</p>
+      <p>
+        <a class="btn btn--quiet" href={home.hero.secondaryCta.href}>{home.hero.secondaryCta.label}</a>
+      </p>
+    </div>
+    <figure class="hero__figure">
+      <BodySilhouette zones={heroZones} animate />
+      <figcaption>{home.hero.figureCaption}</figcaption>
+    </figure>
+  </section>
+
+  <section class="now container" aria-labelledby="now-title">
+    <div class="now__panel">
+      <div class="now__head">
+        <h2 id="now-title">{home.now.title}</h2>
+        <p>{home.now.intro}</p>
+      </div>
+      <ul class="now__signals" role="list">
+        {
+          signals.map((s) => (
+            <li>
+              <SymptomCard icon={s.icon} title={s.signal} compact />
+            </li>
+          ))
+        }
+      </ul>
+      <div class="now__actions">
+        <EmergencyButton showAlt />
+        <p class="now__more">
+          <a href={home.now.moreLink.href}>{home.now.moreLink.label}</a>
+        </p>
+      </div>
+      <Draft />
+    </div>
+  </section>
+
+  <section class="sections container" aria-labelledby="sections-title">
+    <h2 id="sections-title">{home.sections.title}</h2>
+    <ul class="sections__grid" role="list">
+      <li class="sections__featured">
+        <a class="section-card section-card--featured" href={featured.href}>
+          <span class="section-card__icon"><Icon name={featured.icon} /></span>
+          <span class="section-card__title">{featured.title}</span>
+          <span class="section-card__text">{featured.text}</span>
+          <span class="section-card__cta" aria-hidden="true">
+            {home.sections.featuredCta} <Icon name="arrow-right" />
+          </span>
+        </a>
+      </li>
+      {
+        sections.map((item) => (
+          <li>
+            <a class="section-card" href={item.href}>
+              <span class="section-card__icon">
+                <Icon name={item.icon} />
+              </span>
+              <span class="section-card__title">{item.title}</span>
+              <span class="section-card__text">{item.text}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="message" aria-label={home.message.label}>
+    <div class="container">
+      <Draft />
+      <blockquote class="message__quote">
+        <p>{home.message.text}</p>
+      </blockquote>
+      <p class="message__caption">{home.message.caption}</p>
+    </div>
+  </section>
 </Base>
+
+<style>
+  /* Portada: titular */
+  .hero {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+    padding-block: var(--space-5) var(--space-4);
+  }
+
+  .hero__text > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .hero__title {
+    font-size: var(--fs-display);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+  }
+
+  .hero__lede {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    max-width: 34rem;
+  }
+
+  .hero__figure {
+    display: none;
+    margin: 0;
+  }
+
+  .hero__figure figcaption {
+    margin-top: var(--space-2);
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      grid-template-columns: 1.4fr 1fr;
+      padding-block: var(--space-8) var(--space-6);
+    }
+
+    .hero__figure {
+      display: block;
+      max-width: 320px;
+      justify-self: center;
+    }
+  }
+
+  /* ¿Te está pasando ahora? */
+  .now__panel {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-2);
+    background: var(--color-surface);
+    border: 2px solid var(--color-text);
+    border-radius: var(--radius-card);
+  }
+
+  .now__panel > :global(.draft-tag) {
+    justify-self: start;
+  }
+
+  .now__head > * + * {
+    margin-top: var(--space-1);
+  }
+
+  .now__head p {
+    max-width: var(--measure);
+  }
+
+  .now__signals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+
+  .now__more {
+    margin-top: var(--space-2);
+  }
+
+  .now__more a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .now__panel {
+      padding: var(--space-5);
+    }
+
+    .now__signals {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2);
+    }
+  }
+
+  @media (min-width: 960px) {
+    .now__panel {
+      grid-template-columns: 1fr 1.6fr;
+      column-gap: var(--space-6);
+      align-items: start;
+    }
+
+    .now__head,
+    .now__actions {
+      grid-column: 1;
+    }
+
+    .now__signals {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Accesos a las secciones */
+  .sections {
+    padding-top: var(--space-10);
+  }
+
+  .sections__grid {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .section-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    height: 100%;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .section-card:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text);
+  }
+
+  .section-card:hover .section-card__title {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  .section-card__icon {
+    color: var(--color-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .section-card__icon :global(.icon) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .section-card__title {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+  }
+
+  .section-card__text {
+    color: var(--color-text-muted);
+  }
+
+  .section-card--featured {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .section-card--featured:hover {
+    background: var(--color-primary-strong);
+    color: var(--color-on-primary);
+  }
+
+  .section-card--featured .section-card__icon,
+  .section-card--featured .section-card__text {
+    color: var(--color-on-primary);
+  }
+
+  .section-card--featured .section-card__title {
+    font-size: var(--fs-h2);
+  }
+
+  .section-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .sections__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sections__featured {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .sections__grid {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+
+    .sections__featured {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+
+    .section-card--featured {
+      padding: var(--space-5);
+    }
+  }
+
+  /* Mensaje central */
+  .message {
+    margin-top: var(--space-12);
+    /* La banda llega hasta el pie, sin el hueco que este deja normalmente. */
+    margin-bottom: calc(-1 * var(--space-12));
+    padding-block: var(--space-8);
+    background: var(--color-primary-soft);
+  }
+
+  .message__quote {
+    margin: var(--space-3) 0 0;
+  }
+
+  .message__quote p {
+    font-size: clamp(2rem, 6vw, 4.25rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-primary-strong);
+    max-width: 16ch;
+  }
+
+  .message__caption {
+    margin-top: var(--space-3);
+    max-width: var(--measure);
+    color: var(--color-text);
+  }
+</style>

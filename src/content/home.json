@@ -1,0 +1,62 @@
+{
+  "_nota": "Portada. PROVISIONAL: textos pendientes de validación por la clienta.",
+  "hero": {
+    "title": "Un infarto en la mujer no siempre duele en el pecho",
+    "lede": "Puede notarse en la espalda, la mandíbula, el estómago o como un cansancio que no es normal. Reconocerlo a tiempo es lo que más importa.",
+    "secondaryCta": {
+      "href": "/sintomas",
+      "label": "Conocer los síntomas"
+    },
+    "figureCaption": "Zonas donde una mujer puede notar un infarto, además del pecho."
+  },
+  "now": {
+    "title": "¿Te está pasando ahora?",
+    "intro": "Si notas una o varias de estas señales, sobre todo si han empezado de repente o no se van, llama ya. No esperes a ver si se pasa.",
+    "moreLink": {
+      "href": "/que-hacer",
+      "label": "Qué hacer mientras llega la ayuda"
+    }
+  },
+  "sections": {
+    "title": "Para entenderlo mejor",
+    "items": [
+      {
+        "href": "/test",
+        "icon": "clipboard-list",
+        "title": "Test de riesgo",
+        "text": "Diez preguntas, dos minutos. Te orienta sobre tu riesgo cardiovascular. No guarda ningún dato.",
+        "featured": true
+      },
+      {
+        "href": "/sintomas",
+        "icon": "scan-heart",
+        "title": "Síntomas en la mujer",
+        "text": "Cómo se nota cada uno y por qué se confunde con ansiedad."
+      },
+      {
+        "href": "/diferencias",
+        "icon": "person-standing",
+        "title": "Mujer y hombre",
+        "text": "Dónde aparece el dolor en cada caso."
+      },
+      {
+        "href": "/que-hacer",
+        "icon": "list-checks",
+        "title": "Qué hacer",
+        "text": "Los pasos que debes seguir mientras llega la ayuda."
+      },
+      {
+        "href": "/testimonios",
+        "icon": "messages-square",
+        "title": "Testimonios",
+        "text": "Mujeres que reconocieron las señales."
+      }
+    ],
+    "featuredCta": "Empezar el test"
+  },
+  "message": {
+    "text": "No es ansiedad hasta que se descarte el corazón.",
+    "caption": "Ante unos síntomas así, lo primero es descartar un problema cardiaco. Después, todo lo demás.",
+    "label": "Mensaje principal"
+  }
+}

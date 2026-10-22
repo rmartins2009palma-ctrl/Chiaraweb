@@ -1,0 +1,103 @@
+{
+  "_nota": "PROVISIONAL. Información general ampliamente aceptada, sin cifras. Sustituir por el contenido validado de la clienta. 'signal' es la etiqueta corta de la portada; 'home' indica si aparece en ella.",
+  "cardsTitle": "Lo que puedes notar",
+  "cardsIntro": "No tienen por qué aparecer todos, ni a la vez. Pueden ser leves, ir y venir, o durar varios minutos.",
+  "detailTitle": "Cada síntoma, explicado",
+  "detailIntro": "Pulsa en cada uno para saber cómo se nota y por qué a menudo se confunde con ansiedad.",
+  "labels": {
+    "how": "Cómo se nota",
+    "anxiety": "Por qué se confunde con ansiedad"
+  },
+  "symptoms": [
+    {
+      "id": "pecho",
+      "icon": "heart",
+      "title": "Presión o malestar en el pecho",
+      "signal": "Presión o malestar en el pecho",
+      "home": true,
+      "short": "Opresión, peso o ardor en el centro del pecho. No siempre es un dolor intenso.",
+      "how": "Puede sentirse como un peso, una opresión o una molestia que dura varios minutos, o que desaparece y vuelve. En muchas mujeres es leve, y en algunas no aparece.",
+      "anxiety": "La opresión en el pecho también aparece en las crisis de ansiedad. Por eso se tiende a atribuirla a los nervios o al estrés.",
+      "ref": "[Ref. pendiente]"
+    },
+    {
+      "id": "irradiado",
+      "icon": "zap",
+      "title": "Dolor en espalda, cuello, mandíbula o brazos",
+      "signal": "Dolor en espalda, cuello, mandíbula o brazos",
+      "home": true,
+      "short": "En uno o en los dos brazos, entre los omóplatos o en la mandíbula.",
+      "how": "El dolor del corazón puede notarse en otras zonas del cuerpo. A veces aparece solo ahí, sin ninguna molestia en el pecho.",
+      "anxiety": "Al no estar en el pecho, se confunde con una contractura, un problema dental o la tensión muscular del estrés.",
+      "ref": "[Ref. pendiente]"
+    },
+    {
+      "id": "aire",
+      "icon": "wind",
+      "title": "Falta de aire",
+      "signal": "Falta de aire",
+      "home": true,
+      "short": "Sensación de no poder respirar bien, incluso en reposo.",
+      "how": "Puede aparecer sola o junto a otras molestias, y no se explica por el esfuerzo que estás haciendo.",
+      "anxiety": "La sensación de ahogo es típica de un ataque de pánico, así que se interpreta como ansiedad.",
+      "ref": "[Ref. pendiente]"
+    },
+    {
+      "id": "estomago",
+      "icon": "waves",
+      "title": "Náuseas o malestar de estómago",
+      "signal": "Náuseas o malestar de estómago",
+      "home": true,
+      "short": "Náuseas, vómitos, ardor o dolor en la boca del estómago.",
+      "how": "Las molestias digestivas son una de las formas en que el infarto puede presentarse en la mujer, a veces sin otros síntomas claros.",
+      "anxiety": "Se confunden con una indigestión, un virus o un «estómago nervioso».",
+      "ref": "[Ref. pendiente]"
+    },
+    {
+      "id": "sudor",
+      "icon": "droplets",
+      "title": "Sudor frío",
+      "signal": "Sudor frío o mareo",
+      "home": true,
+      "short": "Sudoración repentina, fría y pegajosa, sin calor ni esfuerzo.",
+      "how": "Aparece de golpe, sin motivo, y suele acompañar a otros síntomas como el malestar o la falta de aire.",
+      "anxiety": "Se asocia a un episodio de nervios. En la menopausia, además, puede confundirse con un sofoco.",
+      "ref": "[Ref. pendiente]"
+    },
+    {
+      "id": "cansancio",
+      "icon": "battery-low",
+      "title": "Cansancio intenso y repentino",
+      "signal": "Cansancio intenso y repentino",
+      "home": true,
+      "short": "Agotamiento inusual que no se explica por lo que has hecho.",
+      "how": "Puede aparecer de golpe o en los días previos. Tareas sencillas, como subir unas escaleras o hacer la cama, se vuelven muy pesadas.",
+      "anxiety": "Se atribuye al estrés, a dormir mal o a la carga de trabajo y de cuidados.",
+      "ref": "[Ref. pendiente]"
+    },
+    {
+      "id": "mareo",
+      "icon": "orbit",
+      "title": "Mareo o sensación de desmayo",
+      "signal": "Mareo",
+      "home": false,
+      "short": "Aturdimiento, inestabilidad o sensación de que te vas a desmayar.",
+      "how": "Puede presentarse solo o junto a sudor frío, náuseas o falta de aire.",
+      "anxiety": "El mareo y la sensación de irrealidad también se dan en las crisis de ansiedad.",
+      "ref": "[Ref. pendiente]"
+    }
+  ],
+  "unexpected": {
+    "title": "Señales que no esperas",
+    "intro": "En algunas mujeres el cuerpo avisa antes, con señales poco llamativas que es fácil pasar por alto.",
+    "items": [
+      "Cansancio inusual durante los días o semanas previos.",
+      "Dormir mal sin un motivo aparente.",
+      "Una indigestión que no mejora.",
+      "Molestias que van y vienen, y que no reconoces como habituales.",
+      "La sensación de que algo no va bien."
+    ],
+    "closing": "Si te reconoces en esto, coméntalo en tu centro de salud. Si los síntomas aparecen de repente o no se van, llama al 061.",
+    "ref": "[Ref. pendiente]"
+  }
+}
