@@ -5,12 +5,15 @@ import AccordionItem from '../components/AccordionItem.astro';
 import Disclaimer from '../components/Disclaimer.astro';
 import Draft from '../components/Draft.astro';
 import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
 import PageHead from '../components/PageHead.astro';
 import SymptomCard from '../components/SymptomCard.astro';
+import { hasAnyPhoto } from '../lib/photos';
 import pages from '../content/pages.json';
 import data from '../content/sintomas.json';
 
 const page = pages.sintomas;
+const showAiNote = hasAnyPhoto(data.symptoms.map((s) => s.photo));
 ---
 
 <Base title={page.title} description={page.lede}>
@@ -23,13 +26,21 @@ const page = pages.sintomas;
     <p class="cards-intro">{data.cardsIntro} {data.cardsHint}</p>
     <ul class="cards" role="list">
       {
-        data.symptoms.map((s) => (
+        data.symptoms.map((s, i) => (
           <li>
-            <SymptomCard icon={s.icon} title={s.title} text={s.short} href={`#sintoma-${s.id}`} />
+            <SymptomCard
+              icon={s.icon}
+              title={s.title}
+              text={s.short}
+              href={`#sintoma-${s.id}`}
+              photo={{ name: s.photo, alt: s.photoAlt }}
+              featured={i === 0}
+            />
           </li>
         ))
       }
     </ul>
+    {showAiNote && <p class="ai-note">{data.photosNote}</p>}
   </section>
 
   <div class="container detail">
@@ -55,6 +66,13 @@ const page = pages.sintomas;
 
     <aside class="unexpected" aria-labelledby="unexpected-title">
       <div class="unexpected__panel">
+        <Photo
+          name={data.unexpected.photo}
+          alt={data.unexpected.photoAlt}
+          ratio="4/5"
+          sizes="(min-width: 960px) 30vw, 100vw"
+          class="unexpected__photo"
+        />
         <span class="unexpected__icon"><Icon name="lightbulb" /></span>
         <h2 id="unexpected-title">{data.unexpected.title}</h2>
         <p>{data.unexpected.intro}</p>
@@ -90,25 +108,26 @@ const page = pages.sintomas;
     list-style: none;
   }
 
+  .ai-note {
+    margin-top: var(--space-2);
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+  }
+
+  /* La primera tarjeta, el síntoma más conocido, ocupa toda la fila. */
   @media (min-width: 640px) {
     .cards {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cards li:first-child {
+      grid-column: 1 / -1;
     }
   }
 
   @media (min-width: 1100px) {
     .cards {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    /* La primera tarjeta, el síntoma más conocido, ocupa dos columnas;
-       el resto apila el icono sobre el texto para aprovechar el ancho. */
-    .cards li:first-child {
-      grid-column: span 2;
-    }
-
-    .cards li:not(:first-child) :global(.symptom) {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -155,6 +174,10 @@ const page = pages.sintomas;
 
   .unexpected__panel > * + * {
     margin-top: var(--space-2);
+  }
+
+  .unexpected__panel > :global(.unexpected__photo) {
+    margin-bottom: var(--space-3);
   }
 
   .unexpected__icon {

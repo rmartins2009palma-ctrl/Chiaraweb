@@ -18,7 +18,9 @@
       "short": "Opresión, peso o ardor en el centro del pecho. No siempre es un dolor intenso.",
       "how": "Puede sentirse como un peso, una opresión o una molestia que dura varios minutos, o que desaparece y vuelve. En muchas mujeres es leve, y en algunas no aparece.",
       "anxiety": "La opresión en el pecho también aparece en las crisis de ansiedad. Por eso se tiende a atribuirla a los nervios o al estrés.",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-pecho",
+      "photoAlt": "Mujer sentada en la cocina con la mano sobre el centro del pecho, con gesto de malestar."
     },
     {
       "id": "irradiado",
@@ -29,7 +31,9 @@
       "short": "En uno o en los dos brazos, entre los omóplatos o en la mandíbula.",
       "how": "El dolor del corazón puede notarse en otras zonas del cuerpo. A veces aparece solo ahí, sin ninguna molestia en el pecho.",
       "anxiety": "Al no estar en el pecho, se confunde con una contractura, un problema dental o la tensión muscular del estrés.",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-irradiado",
+      "photoAlt": "Mujer junto a la ventana tocándose la mandíbula y el brazo izquierdo."
     },
     {
       "id": "aire",
@@ -40,7 +44,9 @@
       "short": "Sensación de no poder respirar bien, incluso en reposo.",
       "how": "Puede aparecer sola o junto a otras molestias, y no se explica por el esfuerzo que estás haciendo.",
       "anxiety": "La sensación de ahogo es típica de un ataque de pánico, así que se interpreta como ansiedad.",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-falta-aire",
+      "photoAlt": "Mujer detenida a mitad de una escalera, agarrada a la barandilla, respirando con esfuerzo."
     },
     {
       "id": "estomago",
@@ -51,7 +57,9 @@
       "short": "Náuseas, vómitos, ardor o dolor en la boca del estómago.",
       "how": "Las molestias digestivas son una de las formas en que el infarto puede presentarse en la mujer, a veces sin otros síntomas claros.",
       "anxiety": "Se confunden con una indigestión, un virus o un «estómago nervioso».",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-estomago",
+      "photoAlt": "Mujer sentada en el sofá con la mano en la boca del estómago y un vaso de agua al lado."
     },
     {
       "id": "sudor",
@@ -62,7 +70,9 @@
       "short": "Sudoración repentina, fría y pegajosa, sin calor ni esfuerzo.",
       "how": "Aparece de golpe, sin motivo, y suele acompañar a otros síntomas como el malestar o la falta de aire.",
       "anxiety": "Se asocia a un episodio de nervios. En la menopausia, además, puede confundirse con un sofoco.",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-sudor-frio",
+      "photoAlt": "Mujer en su mesa de trabajo, con la frente sudorosa, secándose con un pañuelo."
     },
     {
       "id": "cansancio",
@@ -73,7 +83,9 @@
       "short": "Agotamiento inusual que no se explica por lo que has hecho.",
       "how": "Puede aparecer de golpe o en los días previos. Tareas sencillas, como subir unas escaleras o hacer la cama, se vuelven muy pesadas.",
       "anxiety": "Se atribuye al estrés, a dormir mal o a la carga de trabajo y de cuidados.",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-cansancio",
+      "photoAlt": "Mujer agotada sentada en el borde de la cama junto a un cesto de ropa."
     },
     {
       "id": "mareo",
@@ -84,7 +96,9 @@
       "short": "Aturdimiento, inestabilidad o sensación de que te vas a desmayar.",
       "how": "Puede presentarse solo o junto a sudor frío, náuseas o falta de aire.",
       "anxiety": "El mareo y la sensación de irrealidad también se dan en las crisis de ansiedad.",
-      "ref": "[Ref. pendiente]"
+      "ref": "[Ref. pendiente]",
+      "photo": "sintoma-mareo",
+      "photoAlt": "Mujer en un pasillo de una tienda apoyándose en una estantería, mareada."
     }
   ],
   "unexpected": {
@@ -98,7 +112,9 @@
       "La sensación de que algo no va bien."
     ],
     "closing": "Si te reconoces en esto, coméntalo en tu centro de salud. Si los síntomas aparecen de repente o no se van, llama al 061.",
-    "ref": "[Ref. pendiente]"
+    "ref": "[Ref. pendiente]",
+    "photo": "senales-no-esperas",
+    "photoAlt": "Mujer despierta en la cama por la noche, a la luz de una lámpara."
   },
   "cardsHint": "Pulsa una tarjeta para ver su explicación.",
   "cta": {
@@ -107,5 +123,6 @@
       "href": "/que-hacer",
       "label": "Qué hacer mientras llega la ayuda"
     }
-  }
+  },
+  "photosNote": "Las fotos de esta página se han generado con inteligencia artificial."
 }

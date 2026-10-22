@@ -69,7 +69,9 @@
     "menuClose": "Cerrar",
     "navLabel": "Principal",
     "homeLabel": "Ir a la portada",
-    "draftLabel": "PROVISIONAL"
+    "draftLabel": "PROVISIONAL",
+    "photoPending": "Foto pendiente",
+    "photoAiCredit": "Imagen generada con IA"
   },
   "themes": {
     "title": "Tema del prototipo",

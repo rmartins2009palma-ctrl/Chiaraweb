@@ -1,0 +1,132 @@
+---
+/**
+ * Foto por nombre de archivo (sin extensión) de src/assets/fotos/.
+ * Si la foto aún no existe, muestra un recuadro «Foto pendiente» del mismo tamaño,
+ * para que la maqueta se vea completa mientras llegan las imágenes.
+ * Astro la optimiza al compilar (WebP y varios tamaños).
+ */
+import { Picture } from 'astro:assets';
+import site from '../content/site.json';
+import Icon from './Icon.astro';
+import { getPhoto } from '../lib/photos';
+
+interface Props {
+  name: string;
+  alt: string;
+  /** Proporción ancho/alto, p. ej. "4/3". */
+  ratio?: string;
+  sizes?: string;
+  class?: string;
+  /** Muestra el pie «Imagen generada con IA». */
+  aiCredit?: boolean;
+  /** Dentro de un enlace o junto a un texto que ya la describe: alt vacío. */
+  decorative?: boolean;
+}
+
+const {
+  name,
+  alt,
+  ratio = '4/3',
+  sizes = '(min-width: 960px) 33vw, 100vw',
+  class: className,
+  aiCredit = true,
+  decorative = false,
+} = Astro.props;
+
+const image = getPhoto(name);
+---
+
+<figure class:list={['photo', className]} style={`--ratio:${ratio}`}>
+  {
+    image ? (
+      <Picture
+        src={image}
+        alt={decorative ? '' : alt}
+        widths={[480, 800, 1200, 1600].filter((w) => w <= image.width)}
+        sizes={sizes}
+        formats={['avif', 'webp']}
+        class="photo__img"
+      />
+    ) : (
+      <div
+        class="photo__pending"
+        role={decorative ? undefined : 'img'}
+        aria-label={decorative ? undefined : `${site.ui.photoPending}: ${alt}`}
+        aria-hidden={decorative ? 'true' : undefined}
+      >
+        <Icon name="image" />
+        <span>
+          {site.ui.photoPending}
+          <code>{name}</code>
+        </span>
+      </div>
+    )
+  }
+  {image && aiCredit && <figcaption class="photo__credit" aria-hidden={decorative ? 'true' : undefined}>{site.ui.photoAiCredit}</figcaption>}
+</figure>
+
+<style>
+  .photo {
+    position: relative;
+    margin: 0;
+    aspect-ratio: var(--ratio);
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-primary-soft);
+    container-type: inline-size;
+  }
+
+  .photo :global(.photo__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo__pending {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    height: 100%;
+    padding: var(--space-2);
+    border: 2px dashed var(--color-border);
+    border-radius: inherit;
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+    text-align: center;
+  }
+
+  .photo__pending span {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo__pending code {
+    font-size: 0.8125rem;
+  }
+
+  /* En miniaturas, solo el icono. */
+  @container (max-width: 160px) {
+    .photo__pending span {
+      display: none;
+    }
+  }
+
+  .photo__pending :global(.icon) {
+    width: 32px;
+    height: 32px;
+  }
+
+  .photo__credit {
+    position: absolute;
+    right: var(--space-1);
+    bottom: var(--space-1);
+    padding: 2px var(--space-1);
+    border-radius: 6px;
+    background: rgb(0 0 0 / 0.62);
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+</style>
